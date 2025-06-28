@@ -16,8 +16,7 @@ const allowedOrigins = [
     'http://localhost:3000', // for local development
     'http://localhost:8000', // allow requests from the server itself
     'http://192.168.31.197:3000', // allow access from local network
-    'https://managing-tasks.vercel.app', // your deployed frontend
-    'https://YOUR_FRONTEND_DOMAIN' // placeholder for your deployed frontend
+    'https://task-management-dashboard-hazel.vercel.app' // deployed frontend
 ];
 
 app.use(cors({
