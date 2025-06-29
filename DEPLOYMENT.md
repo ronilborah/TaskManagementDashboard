@@ -73,31 +73,32 @@ Your app now supports two modes:
 1. **Create a Vercel account** at [vercel.com](https://vercel.com)
 2. **Import your GitHub repository**
 3. **Set the Root Directory** to `frontend`
-4. **Add Environment Variable**:
+4. **Set the Build Command** to `npm run build:prod`
+5. **Add Environment Variable**:
    - Name: `REACT_APP_API_URL`
    - Value: `https://your-backend-url.com/api`
-5. **Deploy**
+6. **Deploy**
 
 ### Option B: Deploy to Netlify
 
 1. **Create a Netlify account** at [netlify.com](https://netlify.com)
 2. **Connect your GitHub repository**
 3. **Set the Publish directory** to `frontend/build`
-4. **Set the Build command** to `cd frontend && npm install && npm run build`
+4. **Set the Build command** to `cd frontend && npm run build:prod`
 5. **Add Environment Variable**:
    - Key: `REACT_APP_API_URL`
    - Value: `https://your-backend-url.com/api`
 6. **Deploy**
 
-### Option C: Deploy to GitHub Pages
+### Option C: Manual Build and Deploy
 
-1. **Build the project**:
+1. **Build for production**:
    ```bash
    cd frontend
-   npm run build
+   npm run build:prod
    ```
 
-2. **Deploy the `build` folder** to GitHub Pages
+2. **Deploy the `build` folder** to your hosting platform
 
 ## Step 4: MongoDB Setup
 
@@ -127,6 +128,25 @@ Your app now supports two modes:
 2. **Test your frontend** by visiting your deployed frontend URL
 3. **Verify data persistence** by creating projects and tasks
 
+## Build Process
+
+### Local Development
+```bash
+cd frontend
+npm start  # Uses localStorage, no axios needed
+```
+
+### Production Build
+```bash
+cd frontend
+npm run build:prod  # Installs axios and builds for production
+```
+
+The production build script automatically:
+1. Installs axios for MongoDB API support
+2. Builds the application with production optimizations
+3. Creates a `build` directory ready for deployment
+
 ## Environment Variables Reference
 
 ### Backend (.env)
@@ -149,6 +169,7 @@ REACT_APP_API_URL=https://your-backend-url.com/api
 2. **MongoDB Connection**: Verify your MongoDB URI and network access
 3. **Environment Variables**: Ensure they're set correctly in your deployment platform
 4. **Build Errors**: Check that all dependencies are installed
+5. **Axios Errors**: Ensure axios is installed for production builds
 
 ### Debug Mode
 

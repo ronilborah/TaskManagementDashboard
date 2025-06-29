@@ -268,14 +268,18 @@ class LocalStorageAPI {
 class MongoDBAPI {
     constructor() {
         this.api = null;
-        this.initializeAPI();
+        this.axiosLoaded = false;
     }
 
-    async initializeAPI() {
+    async loadAxios() {
+        if (this.axiosLoaded) return;
+
         try {
-            // Dynamically import axios only in production
-            const axios = await import('axios');
-            this.api = axios.default.create({
+            // Try to dynamically import axios
+            const axiosModule = await import('axios');
+            const axios = axiosModule.default;
+
+            this.api = axios.create({
                 baseURL: API_BASE_URL,
                 headers: {
                     'Content-Type': 'application/json',
@@ -302,38 +306,33 @@ class MongoDBAPI {
                     return Promise.reject(error);
                 }
             );
+
+            this.axiosLoaded = true;
         } catch (error) {
-            console.error('Failed to initialize MongoDB API:', error);
-            toast.error('Failed to initialize API connection');
+            console.error('Failed to load axios:', error);
+            toast.error('Axios not available. Please install axios for production deployment.');
+            throw new Error('Axios not available');
         }
     }
 
     // Simulate the same interface as LocalStorageAPI
     async get(url, config = {}) {
-        if (!this.api) {
-            await this.initializeAPI();
-        }
+        await this.loadAxios();
         return this.api.get(url, config);
     }
 
     async post(url, data, config = {}) {
-        if (!this.api) {
-            await this.initializeAPI();
-        }
+        await this.loadAxios();
         return this.api.post(url, data, config);
     }
 
     async put(url, data, config = {}) {
-        if (!this.api) {
-            await this.initializeAPI();
-        }
+        await this.loadAxios();
         return this.api.put(url, data, config);
     }
 
     async delete(url, config = {}) {
-        if (!this.api) {
-            await this.initializeAPI();
-        }
+        await this.loadAxios();
         return this.api.delete(url, config);
     }
 }
