@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { toast } from 'react-toastify';
 
 // Determine if we're in development (localhost) or production (deployed)
@@ -268,49 +267,73 @@ class LocalStorageAPI {
 // MongoDB-based API for production (deployed version)
 class MongoDBAPI {
     constructor() {
-        this.api = axios.create({
-            baseURL: API_BASE_URL,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        this.api = null;
+        this.initializeAPI();
+    }
 
-        // Add response interceptor to handle errors globally
-        this.api.interceptors.response.use(
-            (response) => {
-                return response;
-            },
-            (error) => {
-                if (error.response) {
-                    const message = error.response.data.message || 'An unexpected error occurred';
-                    toast.error(message);
-                    console.error('API Error:', error.response.data);
-                } else if (error.request) {
-                    toast.error('Network Error: Could not connect to the server.');
-                    console.error('Network Error:', error.request);
-                } else {
-                    toast.error('An error occurred while setting up the request.');
-                    console.error('Request Setup Error:', error.message);
+    async initializeAPI() {
+        try {
+            // Dynamically import axios only in production
+            const axios = await import('axios');
+            this.api = axios.default.create({
+                baseURL: API_BASE_URL,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            // Add response interceptor to handle errors globally
+            this.api.interceptors.response.use(
+                (response) => {
+                    return response;
+                },
+                (error) => {
+                    if (error.response) {
+                        const message = error.response.data.message || 'An unexpected error occurred';
+                        toast.error(message);
+                        console.error('API Error:', error.response.data);
+                    } else if (error.request) {
+                        toast.error('Network Error: Could not connect to the server.');
+                        console.error('Network Error:', error.request);
+                    } else {
+                        toast.error('An error occurred while setting up the request.');
+                        console.error('Request Setup Error:', error.message);
+                    }
+                    return Promise.reject(error);
                 }
-                return Promise.reject(error);
-            }
-        );
+            );
+        } catch (error) {
+            console.error('Failed to initialize MongoDB API:', error);
+            toast.error('Failed to initialize API connection');
+        }
     }
 
     // Simulate the same interface as LocalStorageAPI
     async get(url, config = {}) {
+        if (!this.api) {
+            await this.initializeAPI();
+        }
         return this.api.get(url, config);
     }
 
     async post(url, data, config = {}) {
+        if (!this.api) {
+            await this.initializeAPI();
+        }
         return this.api.post(url, data, config);
     }
 
     async put(url, data, config = {}) {
+        if (!this.api) {
+            await this.initializeAPI();
+        }
         return this.api.put(url, data, config);
     }
 
     async delete(url, config = {}) {
+        if (!this.api) {
+            await this.initializeAPI();
+        }
         return this.api.delete(url, config);
     }
 }
