@@ -65,7 +65,8 @@ const localStorageAPI = {
     getProjects: () => {
         try {
             const projects = localStorage.getItem(STORAGE_KEYS.PROJECTS);
-            return projects ? JSON.parse(projects) : [];
+            const parsedProjects = projects ? JSON.parse(projects) : [];
+            return parsedProjects;
         } catch (error) {
             console.error('Error reading projects from localStorage:', error);
             return [];
@@ -84,7 +85,8 @@ const localStorageAPI = {
     getTasks: () => {
         try {
             const tasks = localStorage.getItem(STORAGE_KEYS.TASKS);
-            return tasks ? JSON.parse(tasks) : [];
+            const parsedTasks = tasks ? JSON.parse(tasks) : [];
+            return parsedTasks;
         } catch (error) {
             console.error('Error reading tasks from localStorage:', error);
             return [];
