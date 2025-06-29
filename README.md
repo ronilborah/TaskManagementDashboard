@@ -1,9 +1,5 @@
 # Task Management Dashboard
 
-A modern, full-stack task and project management dashboard built with React (frontend) and Node.js/Express/MongoDB (backend).
-
----
-
 ## Features
 - **Project Management**: Create, update, and delete projects with color coding.
 - **Task Management**: Add, edit, delete, and drag-and-drop tasks between statuses and priorities.
@@ -12,8 +8,39 @@ A modern, full-stack task and project management dashboard built with React (fro
 - **Analytics Dashboard**: Visualize project/task stats.
 - **Dark Mode & Customization**: Toggle dark mode, change fonts, backgrounds, and more.
 - **Keyboard Navigation**: Enhanced accessibility and productivity.
-- **Persistent Data**: All project/task data is stored in the backend (MongoDB), not localStorage.
+- **Persistent Data**: All project/task data is stored in the backend (MongoDB) in production, and in localStorage for local development.
 - **Responsive Design**: Works great on desktop and mobile.
+
+---
+
+## Getting Started (Local Development)
+
+### Prerequisites
+- Node.js (v18+ recommended)
+
+### 1. Clone the repository
+```sh
+git clone https://github.com/ronilborah/TaskManagementDashboard.git
+cd TaskManagementDashboardNew
+```
+
+### 2. Start the Frontend (local mode uses localStorage, no backend needed)
+```sh
+cd client
+npm install
+npm start
+```
+
+- Open [http://localhost:3000](http://localhost:3000) (or the port shown in your terminal) in your browser.
+- All data will be stored in your browser's localStorage.
+
+### (Optional) Start the Backend
+If you want to use the backend (MongoDB), start it as follows:
+```sh
+cd server
+npm install
+npm start
+```
 
 ---
 
@@ -29,35 +56,6 @@ A modern, full-stack task and project management dashboard built with React (fro
 TaskManagementDashboardNew/
   client/      # React frontend
   server/      # Node.js/Express backend
-```
-
----
-
-## Getting Started (Local Development)
-
-### Prerequisites
-- Node.js (v18+ recommended)
-- MongoDB (local or Atlas)
-
-### 1. Clone the repository
-```sh
-git clone https://github.com/ronilborah/TaskManagementDashboard.git
-cd TaskManagementDashboard
-```
-
-### 2. Backend Setup
-```sh
-cd server
-cp .env.example .env   # Create your .env file with MongoDB URI and other secrets
-npm install
-npm start              # Starts backend on http://localhost:8000
-```
-
-### 3. Frontend Setup
-```sh
-cd ../client
-npm install
-npm start              # Starts frontend on http://localhost:3000 (proxy to backend)
 ```
 
 ---
