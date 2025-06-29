@@ -37,7 +37,14 @@ TaskManagementDashboardNew/
 
 ### Prerequisites
 - Node.js (v18+ recommended)
-- MongoDB (local or Atlas)
+- Internet connection (for deployed backend)
+
+### Configuration
+Before running the application, you need to set your deployed backend URL:
+
+1. Edit `config.js` in the root directory
+2. Replace `'https://your-actual-backend-url.onrender.com'` with your actual deployed backend URL
+3. Or set the environment variable: `export DEPLOYED_BACKEND_URL=https://your-backend-url.onrender.com`
 
 ### Complete Setup & Run
 ```bash
@@ -50,23 +57,19 @@ npm run install-all && npm run dev
 ```
 
 This single command will:
-1. Install all dependencies for both frontend and backend
+1. Install all dependencies for frontend
 2. Find available ports automatically (avoids conflicts)
-3. Start both servers
-4. Open the frontend in your default browser
-5. Display the URLs for both frontend and backend
+3. Start the frontend server
+4. Connect to the deployed backend
+5. Open the frontend in your default browser
+6. Display the URL for the frontend
 
 **Expected Output:**
 ```
 🚀 Starting Task Management Dashboard...
 
 📱 Frontend will run on: http://localhost:8765
-🔧 Backend will run on: http://localhost:8000
-
-[Backend] 🚀 Backend server running on port 8000
-[Backend] Environment: development
-[Backend] API URL: http://localhost:8000
-[Backend] Health check: http://localhost:8000/api/health
+🔧 Backend will use deployed version: https://task-management-dashboard-backend.onrender.com
 
 [Frontend] Starting the development server...
 [Frontend] Compiled successfully!
@@ -84,6 +87,8 @@ cd frontend
 npm install
 npm start              # Starts frontend on http://localhost:8765
 ```
+
+**Note:** The frontend will automatically connect to the deployed backend at `https://task-management-dashboard-backend.onrender.com`
 
 ### Backend Setup
 ```sh
@@ -137,7 +142,7 @@ REACT_APP_API_URL=https://your-backend.onrender.com/api
 
 The application automatically handles port conflicts:
 - **Frontend**: Starts on port 8765, automatically finds next available port if busy
-- **Backend**: Starts on port 8000, automatically finds next available port if busy
+- **Backend**: Uses deployed version (no local port management needed)
 - **Browser**: Automatically opens when frontend is ready
 
 ---
