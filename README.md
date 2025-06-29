@@ -1,183 +1,147 @@
 # Task Management Dashboard
 
-A modern, full-stack task and project management dashboard built with React (frontend) and Node.js/Express/MongoDB (backend).
-
----
+A modern, feature-rich task management application built with React and localStorage for local development.
 
 ## Features
-- **Project Management**: Create, update, and delete projects with color coding.
-- **Task Management**: Add, edit, delete, and drag-and-drop tasks between statuses and priorities.
-- **Recurring Tasks**: Support for recurring task creation.
-- **Unified Calendar View**: Visualize all tasks in a calendar (monthly/weekly views).
-- **Analytics Dashboard**: Visualize project/task stats.
-- **Dark Mode & Customization**: Toggle dark mode, change fonts, backgrounds, and more.
-- **Keyboard Navigation**: Enhanced accessibility and productivity.
-- **Persistent Data**: All project/task data is stored in the backend (MongoDB), not localStorage.
-- **Responsive Design**: Works great on desktop and mobile.
 
----
+- **Project Management**: Create, edit, and delete projects with custom colors
+- **Task Management**: Add, edit, delete, and organize tasks with drag-and-drop
+- **Calendar View**: Unified calendar interface for task scheduling
+- **Analytics Dashboard**: Visual insights into task completion and productivity
+- **Dark/Light Mode**: Toggle between themes
+- **Responsive Design**: Works on desktop and mobile devices
+- **Local Storage**: All data is stored locally in the browser for offline use
 
-## Tech Stack
-- **Frontend**: React, React Router, React DnD, TailwindCSS, Framer Motion, React Toastify, Axios
-- **Backend**: Node.js, Express, MongoDB, Mongoose
-- **Deployment**: Frontend on Vercel, Backend on Render
-
----
-
-## Folder Structure
-```
-TaskManagementDashboardNew/
-  frontend/    # React frontend
-  backend/     # Node.js/Express backend
-```
-
----
-
-## Quick Start
+## Local Development Setup
 
 ### Prerequisites
-- Node.js (v18+ recommended)
-- MongoDB (local or Atlas)
+- Node.js (v14 or higher)
+- npm or yarn
 
-### Complete Setup & Run
+### Installation
+
+1. Clone the repository:
 ```bash
-# Clone the repository
-git clone https://github.com/ronilborah/TaskManagementDashboard.git
-cd TaskManagementDashboard
-
-# Install all dependencies and start the application
-npm run install-all && npm run dev
+git clone <repository-url>
+cd TaskManagementDashboardNew
 ```
 
-This single command will:
-1. Install all dependencies for both frontend and backend
-2. Find available ports automatically (avoids conflicts)
-3. Start both local backend and frontend servers
-4. Open the frontend in your default browser
-5. Display the URLs for both frontend and backend
-
-**Expected Output:**
-```
-🚀 Starting Task Management Dashboard (Local Development)...
-
-📱 Frontend will run on: http://localhost:8765
-🔧 Backend will run on: http://localhost:8000
-
-[Backend] 🚀 Backend server running on port 8000
-[Backend] Environment: development
-[Backend] API URL: http://localhost:8000
-[Backend] Health check: http://localhost:8000/api/health
-
-[Frontend] Starting the development server...
-[Frontend] Compiled successfully!
-[Frontend] You can now view task-management-dashboard in the browser.
-[Frontend] Local: http://localhost:8765
-```
-
----
-
-## Alternative Setup (Manual)
-
-### Frontend Setup
-```sh
+2. Install frontend dependencies:
+```bash
 cd frontend
 npm install
-npm start              # Starts frontend on http://localhost:8765
 ```
 
-### Backend Setup
-```sh
-cd backend
-cp .env.example .env   # Create your .env file with MongoDB URI and other secrets
-npm install
-npm run dev            # Starts backend on http://localhost:8000
+3. Start the development server:
+```bash
+npm start
 ```
 
-**Note:** Make sure both frontend and backend are running for full functionality.
+The app will open in your browser at `http://localhost:3000`.
 
----
+## Data Storage
 
-## Environment Variables
+This application uses **localStorage** for data persistence in local development. All projects and tasks are stored in the browser's localStorage with the following keys:
 
-### Backend (`backend/.env`)
-```
-MONGODB_URI=your_mongodb_connection_string
-NODE_ENV=development
-PORT=8000
-```
+- `taskmanager_projects`: Stores all project data
+- `taskmanager_tasks`: Stores all task data
+- `selectedProjectId`: Currently selected project
+- `theme`: Dark/light mode preference
+- `backgroundType`: Background animation preference
+- `fontFamily`: Selected font family
+- `fontSize`: Selected font size
+- `glitchOnHover`: Glitch effect preference
 
-### Frontend (`frontend/.env` for production)
-```
-REACT_APP_API_URL=https://your-backend.onrender.com/api
-```
+## API Structure
 
----
+The app uses a localStorage-based API that mimics RESTful endpoints:
+
+### Projects
+- `GET /projects` - Get all projects
+- `POST /projects` - Create a new project
+- `PUT /projects/:id` - Update a project
+- `DELETE /projects/:id` - Delete a project
+
+### Tasks
+- `GET /tasks` - Get all tasks (with optional filters)
+- `POST /tasks` - Create a new task
+- `PUT /tasks/:id` - Update a task
+- `DELETE /tasks/:id` - Delete a task
 
 ## Available Scripts
 
-### Root Level
-- `npm run install-all` - Install dependencies for both frontend and backend
-- `npm run dev` - Start both frontend and backend with dynamic ports and auto-open browser
-- `npm run backend` - Start only the backend server
-- `npm run frontend` - Start only the frontend development server
-- `npm run build` - Build the frontend for production
-- `npm run test` - Run frontend tests
-- `npm start` - Alias for `npm run dev`
-
-### Frontend (`frontend/`)
-- `npm start` - Start development server (auto-opens browser)
-- `npm run build` - Build for production
+- `npm start` - Start the development server
+- `npm build` - Build the app for production
 - `npm test` - Run tests
+- `npm eject` - Eject from Create React App
 
-### Backend (`backend/`)
-- `npm run dev` - Start development server with nodemon
-- `npm start` - Start production server
+## Project Structure
 
----
+```
+frontend/
+├── public/          # Static assets
+├── src/
+│   ├── api.js       # localStorage-based API implementation
+│   ├── App.js       # Main application component
+│   ├── components/  # React components
+│   └── styles/      # CSS files
+└── package.json
+```
 
-## Port Management
+## Features in Detail
 
-The application automatically handles port conflicts:
-- **Frontend**: Starts on port 8765, automatically finds next available port if busy
-- **Backend**: Starts on port 8000, automatically finds next available port if busy
-- **Browser**: Automatically opens when frontend is ready
+### Task Management
+- Create tasks with title, description, priority, and due date
+- Drag and drop tasks between different status columns
+- Filter tasks by priority, status, assignee, and due date
+- Search tasks by title and description
+- Recurring task support
 
----
+### Project Organization
+- Create multiple projects with custom colors
+- Switch between projects easily
+- Delete projects (with confirmation)
 
-## Deployment
+### Calendar Integration
+- View all tasks in a calendar interface
+- Drag and drop tasks to reschedule them
+- Month and week view modes
 
-### Frontend (Vercel)
-- Deploy the `frontend/` folder.
-- Set the environment variable `REACT_APP_API_URL` to your Render backend URL.
+### Analytics
+- Task completion statistics
+- Project progress tracking
+- Productivity insights
 
-### Backend (Render)
-- Deploy the `backend/` folder as a Node.js service.
-- Set up your MongoDB URI and any other secrets in the Render dashboard.
-- Make sure CORS in `server.js` allows your Vercel frontend domain.
+### Customization
+- Multiple background animations
+- Font family and size options
+- Dark/light theme toggle
+- Glitch effects on hover
 
----
+## Browser Compatibility
 
-## API Endpoints
-- `GET    /api/projects`   - List all projects
-- `POST   /api/projects`   - Create a new project
-- `PUT    /api/projects/:id` - Update a project
-- `DELETE /api/projects/:id` - Delete a project
-- `GET    /api/tasks`      - List all tasks (with filters)
-- `POST   /api/tasks`      - Create a new task
-- `PUT    /api/tasks/:id`  - Update a task
-- `DELETE /api/tasks/:id`  - Delete a task
+This application works in all modern browsers that support:
+- ES6+ JavaScript features
+- localStorage API
+- CSS Grid and Flexbox
+- Modern CSS features
 
----
+## Data Persistence
+
+All data is stored locally in the browser's localStorage. This means:
+- Data persists between browser sessions
+- No server required for local development
+- Data is not shared between different browsers/devices
+- Clearing browser data will remove all stored information
 
 ## Contributing
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
----
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
 ## License
-[MIT](LICENSE)
 
----
-
-## Author
-[ronilborah](https://github.com/ronilborah) 
+This project is licensed under the MIT License. 
