@@ -2,7 +2,6 @@ import { toast } from 'react-toastify';
 
 // Determine if we're in development (localhost) or production (deployed)
 const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE_URL = process.env.REACT_APP_API_URL || (isDevelopment ? '/api' : 'https://your-backend-url.com/api');
 
 // localStorage-based API for local development
 class LocalStorageAPI {
@@ -264,87 +263,8 @@ class LocalStorageAPI {
     }
 }
 
-// MongoDB-based API for production (deployed version)
-class MongoDBAPI {
-    constructor() {
-        this.api = null;
-        this.axiosLoaded = false;
-    }
-
-    async loadAxios() {
-        if (this.axiosLoaded) return;
-
-        try {
-            // Try to dynamically import axios
-            const axiosModule = await import('axios');
-            const axios = axiosModule.default;
-
-            this.api = axios.create({
-                baseURL: API_BASE_URL,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            // Add response interceptor to handle errors globally
-            this.api.interceptors.response.use(
-                (response) => {
-                    return response;
-                },
-                (error) => {
-                    if (error.response) {
-                        const message = error.response.data.message || 'An unexpected error occurred';
-                        toast.error(message);
-                        console.error('API Error:', error.response.data);
-                    } else if (error.request) {
-                        toast.error('Network Error: Could not connect to the server.');
-                        console.error('Network Error:', error.request);
-                    } else {
-                        toast.error('An error occurred while setting up the request.');
-                        console.error('Request Setup Error:', error.message);
-                    }
-                    return Promise.reject(error);
-                }
-            );
-
-            this.axiosLoaded = true;
-        } catch (error) {
-            console.error('Failed to load axios:', error);
-            toast.error('Axios not available. Please install axios for production deployment.');
-            throw new Error('Axios not available');
-        }
-    }
-
-    // Simulate the same interface as LocalStorageAPI
-    async get(url, config = {}) {
-        await this.loadAxios();
-        return this.api.get(url, config);
-    }
-
-    async post(url, data, config = {}) {
-        await this.loadAxios();
-        return this.api.post(url, data, config);
-    }
-
-    async put(url, data, config = {}) {
-        await this.loadAxios();
-        return this.api.put(url, data, config);
-    }
-
-    async delete(url, config = {}) {
-        await this.loadAxios();
-        return this.api.delete(url, config);
-    }
-}
-
-// Create the appropriate API instance based on environment
-let api;
-if (isDevelopment) {
-    console.log('🔧 Using localStorage API for local development');
-    api = new LocalStorageAPI();
-} else {
-    console.log('🚀 Using MongoDB API for production deployment');
-    api = new MongoDBAPI();
-}
+// For local development, always use localStorage API
+console.log('🔧 Using localStorage API for local development');
+const api = new LocalStorageAPI();
 
 export default api; 
