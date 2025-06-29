@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@csstools/normalize.css": "^12.1.1",
     "@hello-pangea/dnd": "^18.0.1",
     "@react-three/drei": "^10.3.0",
     "@react-three/fiber": "^9.1.2",
