@@ -1,6 +1,6 @@
 # Task Management Dashboard
 
-A modern, feature-rich task management application built with React and localStorage for local development.
+A modern, feature-rich task management application built with React that supports both local development (localStorage) and production deployment (MongoDB).
 
 ## Features
 
@@ -10,7 +10,25 @@ A modern, feature-rich task management application built with React and localSto
 - **Analytics Dashboard**: Visual insights into task completion and productivity
 - **Dark/Light Mode**: Toggle between themes
 - **Responsive Design**: Works on desktop and mobile devices
-- **Local Storage**: All data is stored locally in the browser for offline use
+- **Dual Data Storage**: localStorage for local development, MongoDB for production
+
+## Dual-Mode Architecture
+
+This application automatically switches between two data storage modes:
+
+### 🔧 Local Development Mode (localhost)
+- **Data Storage**: Browser localStorage
+- **Backend**: None required
+- **Data Persistence**: Local to your browser
+- **Collaboration**: No (single user only)
+- **Offline**: Fully supported
+
+### 🚀 Production Deployment Mode (deployed)
+- **Data Storage**: MongoDB database
+- **Backend**: Node.js/Express API
+- **Data Persistence**: Cloud-based, shared
+- **Collaboration**: Yes (multi-user)
+- **Offline**: Limited (requires internet for data sync)
 
 ## Local Development Setup
 
@@ -37,24 +55,78 @@ npm install
 npm start
 ```
 
-The app will open in your browser at `http://localhost:3000`.
+The app will open in your browser at `http://localhost:3000` and automatically use localStorage for data storage.
 
-## Data Storage
+## Production Deployment Setup
 
-This application uses **localStorage** for data persistence in local development. All projects and tasks are stored in the browser's localStorage with the following keys:
+### Frontend Deployment
 
-- `taskmanager_projects`: Stores all project data
-- `taskmanager_tasks`: Stores all task data
-- `selectedProjectId`: Currently selected project
-- `theme`: Dark/light mode preference
-- `backgroundType`: Background animation preference
-- `fontFamily`: Selected font family
-- `fontSize`: Selected font size
-- `glitchOnHover`: Glitch effect preference
+1. Set up your backend API (see Backend Setup below)
+
+2. Configure the backend URL:
+   - Copy `env.example` to `.env` in the frontend directory
+   - Update `REACT_APP_API_URL` with your backend URL
+
+3. Deploy the frontend:
+```bash
+cd frontend
+npm run build
+```
+
+### Backend Setup
+
+1. Navigate to the backend directory:
+```bash
+cd backend
+npm install
+```
+
+2. Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your MongoDB URI and other settings
+```
+
+3. Deploy your backend to a hosting service (Render, Heroku, Railway, etc.)
+
+4. Update the frontend's `REACT_APP_API_URL` to point to your deployed backend
+
+## Environment Configuration
+
+### Frontend Environment Variables
+
+Create a `.env` file in the `frontend` directory:
+
+```env
+# Backend API URL for production deployment
+REACT_APP_API_URL=https://your-backend-url.com/api
+```
+
+### Backend Environment Variables
+
+Create a `.env` file in the `backend` directory:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+NODE_ENV=production
+PORT=8000
+```
+
+## Data Storage Details
+
+### Local Development (localStorage)
+- **Keys**: `taskmanager_projects`, `taskmanager_tasks`
+- **User Preferences**: `selectedProjectId`, `theme`, `backgroundType`, `fontFamily`, `fontSize`, `glitchOnHover`
+- **Data Scope**: Browser-specific, not shared
+
+### Production Deployment (MongoDB)
+- **Collections**: `projects`, `tasks`
+- **User Preferences**: Stored per user in database
+- **Data Scope**: Shared across devices and browsers for authenticated users
 
 ## API Structure
 
-The app uses a localStorage-based API that mimics RESTful endpoints:
+The app uses a unified API interface that works with both storage modes:
 
 ### Projects
 - `GET /projects` - Get all projects
@@ -70,22 +142,33 @@ The app uses a localStorage-based API that mimics RESTful endpoints:
 
 ## Available Scripts
 
-- `npm start` - Start the development server
-- `npm build` - Build the app for production
+### Frontend
+- `npm start` - Start development server (localStorage mode)
+- `npm run build` - Build for production (MongoDB mode)
 - `npm test` - Run tests
 - `npm eject` - Eject from Create React App
+
+### Backend
+- `npm run dev` - Start development server with nodemon
+- `npm start` - Start production server
 
 ## Project Structure
 
 ```
-frontend/
-├── public/          # Static assets
-├── src/
-│   ├── api.js       # localStorage-based API implementation
-│   ├── App.js       # Main application component
-│   ├── components/  # React components
-│   └── styles/      # CSS files
-└── package.json
+TaskManagementDashboardNew/
+├── frontend/          # React frontend
+│   ├── src/
+│   │   ├── api.js     # Dual-mode API (localStorage/MongoDB)
+│   │   ├── App.js     # Main application component
+│   │   └── components/ # React components
+│   ├── env.example    # Environment configuration example
+│   └── package.json
+└── backend/           # Node.js/Express backend (for production)
+    ├── config/        # Database configuration
+    ├── controllers/   # API controllers
+    ├── models/        # MongoDB models
+    ├── routes/        # API routes
+    └── server.js      # Express server
 ```
 
 ## Features in Detail
@@ -122,24 +205,30 @@ frontend/
 
 This application works in all modern browsers that support:
 - ES6+ JavaScript features
-- localStorage API
+- localStorage API (for local development)
 - CSS Grid and Flexbox
 - Modern CSS features
 
-## Data Persistence
+## Deployment Platforms
 
-All data is stored locally in the browser's localStorage. This means:
-- Data persists between browser sessions
-- No server required for local development
-- Data is not shared between different browsers/devices
-- Clearing browser data will remove all stored information
+### Frontend Deployment
+- **Vercel**: Deploy the `frontend` directory
+- **Netlify**: Deploy the `frontend` directory
+- **GitHub Pages**: Deploy the `frontend` directory
+- **Firebase Hosting**: Deploy the `frontend` directory
+
+### Backend Deployment
+- **Render**: Deploy the `backend` directory as a Node.js service
+- **Heroku**: Deploy the `backend` directory
+- **Railway**: Deploy the `backend` directory
+- **Vercel**: Deploy the `backend` directory as a serverless function
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Test thoroughly
+4. Test thoroughly in both local and production modes
 5. Submit a pull request
 
 ## License
