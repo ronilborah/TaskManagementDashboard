@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 
 // Determine if we're in development (localhost) or production (deployed)
 const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE_URL = process.env.REACT_APP_API_URL || (isDevelopment ? '/api' : 'https://your-backend-url.com/api');
 
 // localStorage-based API for local development
 class LocalStorageAPI {
@@ -263,8 +264,63 @@ class LocalStorageAPI {
     }
 }
 
-// For local development, always use localStorage API
-console.log('🔧 Using localStorage API for local development');
-const api = new LocalStorageAPI();
+// MongoDB-based API for production (deployed version)
+class MongoDBAPI {
+    constructor() {
+        this.api = null;
+        this.axiosLoaded = false;
+    }
+
+    async loadAxios() {
+        if (this.axiosLoaded) return;
+
+        try {
+            const axios = await import('axios');
+            this.api = axios.default.create({
+                baseURL: API_BASE_URL,
+                timeout: 10000,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            this.axiosLoaded = true;
+        } catch (error) {
+            console.error('Failed to load axios:', error);
+            throw new Error('Failed to initialize API client');
+        }
+    }
+
+    async request(config) {
+        await this.loadAxios();
+        return this.api.request(config);
+    }
+
+    async get(url, config = {}) {
+        return this.request({ method: 'get', url, ...config });
+    }
+
+    async post(url, data, config = {}) {
+        return this.request({ method: 'post', url, data, ...config });
+    }
+
+    async put(url, data, config = {}) {
+        return this.request({ method: 'put', url, data, ...config });
+    }
+
+    async delete(url, config = {}) {
+        return this.request({ method: 'delete', url, ...config });
+    }
+}
+
+// Choose API based on environment
+let api;
+
+if (isDevelopment) {
+    console.log('🔧 Using localStorage API for local development');
+    api = new LocalStorageAPI();
+} else {
+    console.log('🚀 Using MongoDB API for production deployment');
+    api = new MongoDBAPI();
+}
 
 export default api; 
