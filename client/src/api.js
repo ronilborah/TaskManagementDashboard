@@ -6,7 +6,9 @@ const isLocalDevelopment = window.location.hostname === 'localhost' && window.lo
 
 // The base URL should be a relative path to work with the proxy in development.
 // In production, it will be replaced by the environment variable.
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+const API_BASE_URL = isLocalDevelopment
+    ? '/api'
+    : (process.env.REACT_APP_API_URL || 'https://taskmanagementdashboard.onrender.com/api');
 
 // Create an Axios instance for backend API calls
 const api = axios.create({

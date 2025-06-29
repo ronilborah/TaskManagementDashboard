@@ -19,7 +19,10 @@ const allowedOrigins = [
     'https://task-management-dashboard-hazel.vercel.app', // deployed frontend
     'https://taskmanagementdashboard.onrender.com', // Render deployment
     'https://task-management-dashboard-hazel.vercel.app', // Vercel deployment
-    'https://taskmanagementdashboard.vercel.app' // Alternative Vercel URL
+    'https://taskmanagementdashboard.vercel.app', // Alternative Vercel URL
+    'https://task-management-dashboard-k1zwpl953-ronil-borahs-projects.vercel.app', // Specific Vercel URL from logs
+    /^https:\/\/task-management-dashboard.*\.vercel\.app$/, // Pattern for Vercel preview deployments
+    /^https:\/\/.*\.vercel\.app$/ // General pattern for any Vercel app
 ];
 
 app.use(cors({
@@ -31,8 +34,17 @@ app.use(cors({
 
         // In production, check against allowed origins
         if (!origin) return callback(null, true); // allow requests with no origin
+
+        // Check if origin is in the allowed list (string match)
         if (allowedOrigins.indexOf(origin) !== -1) {
             return callback(null, true);
+        }
+
+        // Check if origin matches any regex patterns
+        for (let pattern of allowedOrigins) {
+            if (pattern instanceof RegExp && pattern.test(origin)) {
+                return callback(null, true);
+            }
         }
 
         // Log the blocked origin for debugging
