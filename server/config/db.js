@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
+const ATLAS_MONGO_URI = 'mongodb+srv://ronilborah:ichigo@tms.hzzmrui.mongodb.net/?retryWrites=true&w=majority&appName=TMS';
+
 const connectDB = async () => {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/task-management-dashboard';
+    const mongoUri = ATLAS_MONGO_URI;
 
     if (!mongoUri) {
         console.error('MongoDB URI not found.');
@@ -9,7 +11,7 @@ const connectDB = async () => {
     }
 
     try {
-        console.log(`Connecting to MongoDB...`);
+        console.log(`Connecting to Atlas MongoDB...`);
         const conn = await mongoose.connect(mongoUri);
 
         console.log(`MongoDB Connected: ${conn.connection.host}`);

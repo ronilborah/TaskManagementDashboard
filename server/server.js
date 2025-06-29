@@ -13,9 +13,9 @@ const app = express();
 
 // Set up CORS
 const allowedOrigins = [
-    'http://localhost:8765', // for local development
-    'http://127.0.0.1:8765',
-    'http://192.168.31.197:8765', // allow access from local network
+    'http://localhost:3000', // for local development
+    'http://localhost:8000', // allow requests from the server itself
+    'http://192.168.31.197:3000', // allow access from local network
     'https://task-management-dashboard-hazel.vercel.app' // deployed frontend
 ];
 
@@ -89,27 +89,19 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 8000;
 
-const server = app.listen(PORT, () => {
-    const actualPort = server.address().port;
-    console.log(`🚀 Backend server running on port ${actualPort}`);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV}`);
-    console.log(`API URL: http://localhost:${actualPort}`);
-    console.log(`Health check: http://localhost:${actualPort}/api/health`);
+    console.log(`API URL: http://localhost:${PORT}`);
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
     console.log('SIGTERM received, shutting down gracefully');
-    server.close(() => {
-        console.log('Server closed');
-        process.exit(0);
-    });
+    process.exit(0);
 });
 
 process.on('SIGINT', () => {
     console.log('SIGINT received, shutting down gracefully');
-    server.close(() => {
-        console.log('Server closed');
-        process.exit(0);
-    });
+    process.exit(0);
 }); 

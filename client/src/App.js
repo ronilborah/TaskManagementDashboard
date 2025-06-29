@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import ProjectList from "./ProjectList";
 import TaskList from "./TaskList";
+import { ToastContainer } from "react-toastify";
+import DarkModeToggle from "./DarkModeToggle";
 import { toast } from "react-toastify";
 import api from "./api";
 import ParticlesBackground from './ParticlesBackground';
