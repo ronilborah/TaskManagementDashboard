@@ -419,9 +419,6 @@ const Dashboard = ({
                                             {
                                                 icon: <VscGraph size={24} />, label: "Analytics", onClick: () => setShowAnalytics(true),
                                             },
-                                            {
-                                                icon: <VscSettingsGear size={24} />, label: "Settings", onClick: () => setShowSettings((s) => !s),
-                                            },
                                         ]}
                                         panelHeight={68}
                                         baseItemSize={50}
