@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 // Determine if we're running locally or deployed
-const isLocalDevelopment = window.location.hostname === 'localhost' && window.location.port === '3000';
+const isLocalDevelopment = window.location.hostname === 'localhost';
 
 // The base URL should be a relative path to work with the proxy in development.
 // In production, it will be replaced by the environment variable.
