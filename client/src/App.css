@@ -1250,22 +1250,6 @@ body.dark .task-card {
   /* border: 1.5px solid var(--border-dark); */
 }
 
-.task-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.task-card:hover::before {
-  transform: scaleX(1);
-}
-
 .task-card.completed {
   opacity: 0.7;
 }
