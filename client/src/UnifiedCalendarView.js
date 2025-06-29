@@ -116,14 +116,14 @@ const UnifiedCalendarView = ({ projects, fetchAllTasks, onClose }) => {
     // Drag-and-drop handler for calendar
     const onCalendarDragEnd = async (result) => {
         if (!result.destination) return;
-        const { draggableId, destination, source } = result;
+        const { draggableId, destination } = result;
         const task = allTasks.find(t => t._id === draggableId);
         if (!task) return;
         // destination.droppableId is the date string
         const newDate = new Date(destination.droppableId);
         if (task.dueDate && new Date(task.dueDate).toDateString() === newDate.toDateString()) return;
         try {
-            await api.put(`/tasks/${task._id}`, { ...task, dueDate: newDate });
+            await api.putTask(task._id, { ...task, dueDate: newDate });
             await fetchAllTasks();
         } catch (e) {
             // Optionally show error

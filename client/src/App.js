@@ -691,7 +691,7 @@ function App() {
 
     const handleAddProject = async (projectData) => {
         try {
-            await api.post('/projects', projectData);
+            await api.postProject(projectData);
             toast.success('Project added successfully!');
             await fetchProjects(); // Re-fetch to get the new project with its _id
         } catch (error) {
@@ -701,7 +701,7 @@ function App() {
 
     const handleUpdateProject = async (projectId, projectData) => {
         try {
-            await api.put(`/projects/${projectId}`, projectData);
+            await api.putProject(projectId, projectData);
             toast.success('Project updated successfully!');
             await fetchProjects();
         } catch (error) {
@@ -712,7 +712,7 @@ function App() {
     const handleDeleteProject = async (projectId) => {
         if (window.confirm("Are you sure? This will also delete all tasks in this project.")) {
             try {
-                await api.delete(`/projects/${projectId}`);
+                await api.deleteProject(projectId);
                 toast.success('Project deleted successfully!');
                 // After deleting, fetch projects and then tasks
                 await fetchProjects();
@@ -728,7 +728,7 @@ function App() {
     const fetchProjects = useCallback(async () => {
         setLoading(true);
         try {
-            const response = await api.get("/projects");
+            const response = await api.getProjects();
             const fetchedProjects = response.data.data;
             setProjects(fetchedProjects);
 
@@ -754,7 +754,7 @@ function App() {
         }
         setLoading(true);
         try {
-            const params = new URLSearchParams({
+            const params = {
                 projectId: selectedProjectId,
                 priority: filterPriority,
                 status: filterStatus,
@@ -762,9 +762,9 @@ function App() {
                 dueDate: filterDate,
                 search: search,
                 sortBy: sortBy,
-            });
+            };
 
-            const response = await api.get(`/tasks?${params.toString()}`);
+            const response = await api.getTasks(params);
             setTasks(response.data.data);
         } catch (error) {
             // Handled by interceptor
@@ -776,7 +776,7 @@ function App() {
     const fetchAllTasks = useCallback(async () => {
         // This function can be used by the calendar to get all tasks
         try {
-            const response = await api.get('/tasks');
+            const response = await api.getTasks();
             setAllTasks(response.data.data); // Also update a state for MatrixPage
             return response.data.data;
         } catch (error) {
@@ -841,10 +841,10 @@ function App() {
 
         try {
             if (editId) {
-                await api.put(`/tasks/${editId}`, taskData);
+                await api.putTask(editId, taskData);
                 toast.success("Task updated successfully!");
             } else {
-                await api.post("/tasks", taskData);
+                await api.postTask(taskData);
                 toast.success("Task added successfully!");
             }
             await fetchTasks(); // Re-fetch tasks to show the new/updated one
@@ -861,7 +861,7 @@ function App() {
     const handleDelete = async (taskId) => {
         if (window.confirm("Are you sure you want to delete this task?")) {
             try {
-                await api.delete(`/tasks/${taskId}`);
+                await api.deleteTask(taskId);
                 toast.success("Task deleted successfully!");
                 await fetchTasks(); // Re-fetch
             } catch (error) {
@@ -872,7 +872,7 @@ function App() {
 
     const handleStatusUpdate = async (task, newStatus) => {
         try {
-            await api.put(`/tasks/${task._id}`, { status: newStatus });
+            await api.putTask(task._id, { status: newStatus });
             toast.success(`Task moved to ${newStatus}`);
             await fetchTasks(); // Re-fetch
         } catch (error) {
