@@ -61,7 +61,12 @@ async function startApp() {
         const frontend = spawn('npm', ['start'], {
             cwd: './frontend',
             stdio: 'pipe',
-            env: { ...process.env, PORT: frontendPort.toString(), BROWSER: 'open' }
+            env: {
+                ...process.env,
+                PORT: frontendPort.toString(),
+                BROWSER: 'open',
+                REACT_APP_API_URL: `http://localhost:${backendPort}/api`
+            }
         });
 
         frontend.stdout.on('data', (data) => {
