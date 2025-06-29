@@ -16,20 +16,33 @@ const allowedOrigins = [
     'http://localhost:3000', // for local development
     'http://localhost:8000', // allow requests from the server itself
     'http://192.168.31.197:3000', // allow access from local network
-    'https://task-management-dashboard-hazel.vercel.app' // deployed frontend
+    'https://task-management-dashboard-hazel.vercel.app', // deployed frontend
+    'https://taskmanagementdashboard.onrender.com', // Render deployment
+    'https://task-management-dashboard-hazel.vercel.app', // Vercel deployment
+    'https://taskmanagementdashboard.vercel.app' // Alternative Vercel URL
 ];
 
 app.use(cors({
     origin: function (origin, callback) {
-        // allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-            return callback(new Error(msg), false);
+        // In development, allow all origins
+        if (process.env.NODE_ENV === 'development') {
+            return callback(null, true);
         }
-        return callback(null, true);
+
+        // In production, check against allowed origins
+        if (!origin) return callback(null, true); // allow requests with no origin
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            return callback(null, true);
+        }
+
+        // Log the blocked origin for debugging
+        console.log(`CORS blocked origin: ${origin}`);
+        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+        return callback(new Error(msg), false);
     },
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json({ limit: '10mb' }));
