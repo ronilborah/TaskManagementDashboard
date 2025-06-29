@@ -1179,21 +1179,6 @@ body.dark .status-todo {
   position: relative;
 }
 
-.priority-header::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: currentColor;
-  transition: width 0.3s ease;
-}
-
-.priority-column:hover .priority-header::after {
-  width: 100%;
-}
-
 .priority-high .priority-header {
   color: #111 !important;
 }
