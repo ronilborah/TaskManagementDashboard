@@ -60,7 +60,7 @@ This single command will:
 ```
 🚀 Starting Task Management Dashboard...
 
-📱 Frontend will run on: http://localhost:3000
+📱 Frontend will run on: http://localhost:8765
 🔧 Backend will run on: http://localhost:8000
 
 [Backend] 🚀 Backend server running on port 8000
@@ -71,7 +71,7 @@ This single command will:
 [Frontend] Starting the development server...
 [Frontend] Compiled successfully!
 [Frontend] You can now view task-management-dashboard in the browser.
-[Frontend] Local: http://localhost:3000
+[Frontend] Local: http://localhost:8765
 ```
 
 ---
@@ -82,7 +82,7 @@ This single command will:
 ```sh
 cd frontend
 npm install
-npm start              # Starts frontend on http://localhost:3000
+npm start              # Starts frontend on http://localhost:8765
 ```
 
 ### Backend Setup
@@ -136,7 +136,7 @@ REACT_APP_API_URL=https://your-backend.onrender.com/api
 ## Port Management
 
 The application automatically handles port conflicts:
-- **Frontend**: Starts on port 3000, automatically finds next available port if busy
+- **Frontend**: Starts on port 8765, automatically finds next available port if busy
 - **Backend**: Starts on port 8000, automatically finds next available port if busy
 - **Browser**: Automatically opens when frontend is ready
 

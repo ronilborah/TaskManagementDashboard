@@ -4,7 +4,7 @@ const { spawn } = require('child_process');
 const { createServer } = require('net');
 
 // Function to find an available port
-function findAvailablePort(startPort = 3000) {
+function findAvailablePort(startPort = 8765) {
     return new Promise((resolve, reject) => {
         const server = createServer();
         server.listen(startPort, () => {
@@ -35,7 +35,7 @@ async function startApp() {
     console.log('🚀 Starting Task Management Dashboard...\n');
 
     // Find available ports
-    const frontendPort = await findAvailablePort(3000);
+    const frontendPort = await findAvailablePort(8765);
     const backendPort = await findAvailableBackendPort(8000);
 
     console.log(`📱 Frontend will run on: http://localhost:${frontendPort}`);

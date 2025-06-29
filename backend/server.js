@@ -13,9 +13,9 @@ const app = express();
 
 // Set up CORS
 const allowedOrigins = [
-    'http://localhost:3000', // for local development
-    'http://localhost:8000', // allow requests from the server itself
-    'http://192.168.31.197:3000', // allow access from local network
+    'http://localhost:8765', // for local development
+    'http://127.0.0.1:8765',
+    'http://192.168.31.197:8765', // allow access from local network
     'https://task-management-dashboard-hazel.vercel.app' // deployed frontend
 ];
 
