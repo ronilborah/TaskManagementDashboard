@@ -89,19 +89,27 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+const server = app.listen(PORT, () => {
+    const actualPort = server.address().port;
+    console.log(`🚀 Backend server running on port ${actualPort}`);
     console.log(`Environment: ${process.env.NODE_ENV}`);
-    console.log(`API URL: http://localhost:${PORT}`);
+    console.log(`API URL: http://localhost:${actualPort}`);
+    console.log(`Health check: http://localhost:${actualPort}/api/health`);
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
     console.log('SIGTERM received, shutting down gracefully');
-    process.exit(0);
+    server.close(() => {
+        console.log('Server closed');
+        process.exit(0);
+    });
 });
 
 process.on('SIGINT', () => {
     console.log('SIGINT received, shutting down gracefully');
-    process.exit(0);
+    server.close(() => {
+        console.log('Server closed');
+        process.exit(0);
+    });
 }); 
