@@ -5,7 +5,6 @@ import ProjectList from "./ProjectList";
 import TaskList from "./TaskList";
 import { ToastContainer } from "react-toastify";
 import DarkModeToggle from "./DarkModeToggle";
-import UnifiedCalendarView from "./UnifiedCalendarView";
 import { toast } from "react-toastify";
 import api from "./api";
 import ParticlesBackground from './ParticlesBackground';
@@ -405,9 +404,6 @@ const Dashboard = ({
                                                 icon: <VscFilter size={24} />, label: "Filter", onClick: () => setShowFilters((s) => !s),
                                             },
                                             {
-                                                icon: <VscCalendar size={24} />, label: "Calendar", onClick: () => setShowUnifiedCalendar(true),
-                                            },
-                                            {
                                                 icon: <VscAdd size={24} />, label: "Add Task", onClick: () => { setEditId(null); setForm(defaultTaskWithRecurrence); setShowAddTaskForm((s) => !s); },
                                             },
                                             {
@@ -577,14 +573,6 @@ const Dashboard = ({
                             glitchOnHover={glitchOnHover}
                         />
                     </main>
-
-                    {showUnifiedCalendar && (
-                        <UnifiedCalendarView
-                            projects={projects}
-                            fetchAllTasks={fetchAllTasks}
-                            onClose={() => setShowUnifiedCalendar(false)}
-                        />
-                    )}
                 </div>
             </DragDropContext>
             {showBgModal && (
