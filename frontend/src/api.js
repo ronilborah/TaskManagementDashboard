@@ -96,10 +96,14 @@ class LocalStorageAPI {
         try {
             let tasks = JSON.parse(localStorage.getItem(this.tasksKey) || '[]');
 
-            // Remove strict projectId check; just filter if provided
-            if (params.projectId) {
-                tasks = tasks.filter(t => t.projectId === params.projectId);
+            // Strictly require projectId for local mode
+            if (!params.projectId) {
+                return { data: { data: [] } };
             }
+
+            // Filter by projectId
+            tasks = tasks.filter(t => t.projectId === params.projectId);
+
             if (params.priority) {
                 tasks = tasks.filter(t => t.priority === params.priority);
             }
