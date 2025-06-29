@@ -134,8 +134,6 @@ const Dashboard = ({
     setFontFamily,
     fontSize,
     setFontSize,
-    dockTransparency,
-    setDockTransparency,
     glitchOnHover,
     setGlitchOnHover,
 }) => {
@@ -428,7 +426,6 @@ const Dashboard = ({
                                         panelHeight={68}
                                         baseItemSize={50}
                                         magnification={50}
-                                        dockTransparency={dockTransparency}
                                     />
                                 </div>
                             </>
@@ -649,104 +646,6 @@ const Dashboard = ({
             {showSettings && (
                 <div className={`settings-panel${isDarkMode ? ' dark' : ''}`} ref={settingsRef}>
                     <div className="settings-title">Settings</div>
-                    <div className="settings-section fonts-section">
-                        <button className="fonts-toggle" onClick={() => setFontsOpen(o => !o)} aria-expanded={fontsOpen}>
-                            <span>Fonts</span>
-                            <span className="fonts-toggle-arrow">{fontsOpen ? '▲' : '▼'}</span>
-                        </button>
-                        {fontsOpen && (
-                            <>
-                                <label className="settings-label">Font Family</label>
-                                <div
-                                    className="settings-font-dropdown"
-                                    tabIndex={0}
-                                    ref={fontDropdownRef}
-                                    onClick={() => setFontDropdownOpen(o => !o)}
-                                    onKeyDown={handleFontDropdownKeyDown}
-                                    aria-haspopup="listbox"
-                                    aria-expanded={fontDropdownOpen}
-                                >
-                                    <span style={{ fontFamily }}>{FONT_OPTIONS.find(f => f.fontFamily === fontFamily)?.label || 'Font'}</span>
-                                    <span className="settings-dropdown-arrow">▼</span>
-                                </div>
-                                {fontDropdownOpen && (
-                                    <ul className="settings-font-list" role="listbox">
-                                        {FONT_OPTIONS.map((opt, i) => (
-                                            <li
-                                                key={opt.value}
-                                                role="option"
-                                                aria-selected={fontDropdownIndex === i}
-                                                className={`settings-font-option${fontDropdownIndex === i ? ' selected' : ''}`}
-                                                style={{ fontFamily: opt.fontFamily, transition: 'font-family 0.3s ease' }}
-                                                onMouseEnter={() => setFontDropdownIndex(i)}
-                                                onClick={() => {
-                                                    setFontFamily(opt.fontFamily);
-                                                    setFontDropdownOpen(false);
-                                                    setShowSettings(false);
-                                                    loadFont(opt);
-                                                }}
-                                            >
-                                                {opt.label}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                                <label className="settings-label">Font Size</label>
-                                <div className="settings-font-size-row">
-                                    {FONT_SIZE_OPTIONS.map(opt => (
-                                        <button
-                                            key={opt.value}
-                                            className={`settings-font-size-btn${fontSize === opt.value ? ' selected' : ''}`}
-                                            onClick={() => setFontSize(opt.value)}
-                                            style={{ fontSize: opt.value }}
-                                        >
-                                            {opt.label}
-                                        </button>
-                                    ))}
-                                </div>
-                                <button
-                                    className="settings-reset-btn"
-                                    onClick={() => {
-                                        setFontFamily(FONT_OPTIONS[1].fontFamily); // Monospace
-                                        setFontSize('16px');
-                                        setFontDropdownOpen(false);
-                                        setFontsOpen(false);
-                                        setShowSettings(false);
-                                    }}
-                                >
-                                    Reset to Default (Monospace, Medium size)
-                                </button>
-                            </>
-                        )}
-                    </div>
-                    <div className="settings-section">
-                        <label className="settings-label">Theme</label>
-                        <button
-                            className="settings-theme-toggle"
-                            onClick={() => setIsDarkMode(d => !d)}
-                        >
-                            {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                        </button>
-                    </div>
-                    <div className="settings-section">
-                        <label className="settings-label" htmlFor="dock-transparency-slider">Dock Transparency</label>
-                        <input
-                            id="dock-transparency-slider"
-                            type="range"
-                            min="0.2"
-                            max="1"
-                            step="0.01"
-                            value={dockTransparency}
-                            onChange={e => {
-                                setDockTransparency(parseFloat(e.target.value));
-                                localStorage.setItem('dockTransparency', e.target.value);
-                            }}
-                            style={{ width: '100%' }}
-                        />
-                        <div style={{ fontSize: '0.95em', color: isDarkMode ? '#aaa' : '#444', marginTop: 2 }}>
-                            {Math.round(dockTransparency * 100)}%
-                        </div>
-                    </div>
                     <div className="settings-row">
                         <label htmlFor="glitch-on-hover-toggle">Glitch Text on Hover Only</label>
                         <input
@@ -798,10 +697,6 @@ function App() {
     const [fontSize, setFontSize] = useState(() => localStorage.getItem('fontSize') || '16px');
     const settingsRef = useRef(null);
     const [fontsOpen, setFontsOpen] = useState(true);
-    const [dockTransparency, setDockTransparency] = useState(() => {
-        const stored = localStorage.getItem('dockTransparency');
-        return stored ? parseFloat(stored) : 0.85;
-    });
     const [glitchOnHover, setGlitchOnHover] = useState(() => {
         const stored = localStorage.getItem('glitchOnHover');
         return stored ? stored === 'true' : true;
@@ -1082,8 +977,6 @@ function App() {
                 setFontFamily={setFontFamily}
                 fontSize={fontSize}
                 setFontSize={setFontSize}
-                dockTransparency={dockTransparency}
-                setDockTransparency={setDockTransparency}
                 glitchOnHover={glitchOnHover}
                 setGlitchOnHover={setGlitchOnHover}
             />
