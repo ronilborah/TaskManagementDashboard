@@ -115,8 +115,8 @@ export default function Dock({
     const mouseX = useMotionValue(Infinity);
     const isHovered = useMotionValue(0);
 
-    // Hardcode dockTransparency to 0.2
-    const dockTransparency = 0.2;
+    // Hardcode dockTransparency to 0.1
+    const dockTransparency = 0.1;
 
     // Compute background color with alpha for both modes
     const isDark = document.body.classList.contains('dark');
