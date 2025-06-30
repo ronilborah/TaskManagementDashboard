@@ -43,24 +43,12 @@ function TaskList({
     setEditId,
     setShowAddTaskForm,
     glitchOnHover = true,
+    columnMode,
+    setColumnMode,
 }) {
-    const [columnMode, setColumnMode] = useState("status");
-
     const onInternalDragEnd = (result) => {
         if (!result.destination) return;
-        const { draggableId, destination } = result;
-        const columnDefinitions = columnMode === 'priority' ? PRIORITIES : STATUSES;
-        const destLabel = columnDefinitions[destination.droppableId].label;
-        const task = tasks.find(t => t._id === draggableId);
-
-        if (columnMode === 'status') {
-            handleStatusUpdate(task, destLabel);
-        } else {
-            // The main onDragEnd in App.js needs to be updated to handle priority changes
-            console.warn("Priority drag and drop not fully implemented yet.");
-            // For now, let's call the generic handler
-            onDragEnd(result);
-        }
+        onDragEnd(result);
     };
 
     const handleComplete = (task) => {

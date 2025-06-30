@@ -132,6 +132,8 @@ const Dashboard = ({
     setFontSize,
     glitchOnHover,
     setGlitchOnHover,
+    columnMode,
+    setColumnMode,
 }) => {
     const isSidebarVisible = isSidebarHovering || isSidebarPinned;
     const [showProjectsDropdown, setShowProjectsDropdown] = useState(false);
@@ -561,6 +563,8 @@ const Dashboard = ({
                             handleSubmit={handleSubmit}
                             handleChange={handleChange}
                             glitchOnHover={glitchOnHover}
+                            columnMode={columnMode}
+                            setColumnMode={setColumnMode}
                         />
                     </main>
                 </div>
@@ -673,6 +677,7 @@ function App() {
         const stored = localStorage.getItem('glitchOnHover');
         return stored ? stored === 'true' : true;
     });
+    const [columnMode, setColumnMode] = useState("status");
 
     // --- Project Handlers ---
 
@@ -863,13 +868,27 @@ function App() {
         const task = tasks.find(t => t._id === draggableId);
         if (!task) return;
 
-        // This logic assumes the droppableId is the status or priority
-        // This needs to be more robust based on the column definition in TaskList
-        const newStatusOrPriority = destination.droppableId;
-
-        // For now, let's assume we are only dragging to update status
-        // A more complete implementation would check the `columnMode`
-        handleStatusUpdate(task, newStatusOrPriority);
+        // Determine which column type is active
+        let newValue;
+        if (columnMode === "priority") {
+            // Map destination.droppableId (index) to PRIORITIES
+            const PRIORITIES = ["High", "Medium", "Low"];
+            newValue = PRIORITIES[parseInt(destination.droppableId, 10)];
+            if (task.priority !== newValue) {
+                await api.putTask(task._id, { priority: newValue });
+                toast.success(`Task moved to ${newValue} priority`);
+                await fetchTasks();
+            }
+        } else {
+            // Map destination.droppableId (index) to STATUSES
+            const STATUSES = ["To Do", "In Progress", "Done"];
+            newValue = STATUSES[parseInt(destination.droppableId, 10)];
+            if (task.status !== newValue) {
+                await api.putTask(task._id, { status: newValue });
+                toast.success(`Task moved to ${newValue}`);
+                await fetchTasks();
+            }
+        }
     };
 
     const handleChange = (e) =>
@@ -933,6 +952,8 @@ function App() {
                 setFontSize={setFontSize}
                 glitchOnHover={glitchOnHover}
                 setGlitchOnHover={setGlitchOnHover}
+                columnMode={columnMode}
+                setColumnMode={setColumnMode}
             />
             <AriaLabelsInjector />
             <KeyboardNavigationSupport />
