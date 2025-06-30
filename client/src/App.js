@@ -18,18 +18,6 @@ import ShapeBlur from './ShapeBlur';
 import Dock from "./Dock";
 import { VscSearch, VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscGraph, VscSettingsGear } from "react-icons/vsc";
 
-// Dynamically load Google Fonts only when selected
-function loadFont(font) {
-    if (!font.google) return;
-    const id = `google-font-${font.value.replace(/\s+/g, '-')}`;
-    if (document.getElementById(id)) return;
-    const link = document.createElement('link');
-    link.id = id;
-    link.rel = 'stylesheet';
-    link.href = `https://fonts.googleapis.com/css?family=${font.value.replace(/\s+/g, '+')}:wght@400;700&display=swap`;
-    document.head.appendChild(link);
-}
-
 const PRIORITIES = [
     { label: "High", value: 3 },
     { label: "Medium", value: 2 },
@@ -63,17 +51,6 @@ const backgroundImages = [
     "layered-waves-haikei.svg",
     "blob-scene-haikei.svg",
     "circle-scatter-haikei.svg"
-];
-
-const FONT_OPTIONS = [
-    { label: 'Reset to Default (Monospace)', value: 'reset', fontFamily: "'JetBrains Mono', 'Fira Mono', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace" },
-    { label: 'Monospace', value: 'monospace', fontFamily: "'JetBrains Mono', 'Fira Mono', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace" },
-];
-
-const FONT_SIZE_OPTIONS = [
-    { label: 'Small', value: '14px' },
-    { label: 'Medium', value: '16px' },
-    { label: 'Large', value: '18px' },
 ];
 
 const Dashboard = ({
@@ -126,10 +103,6 @@ const Dashboard = ({
     setShowAnalytics,
     showSettings,
     setShowSettings,
-    fontFamily,
-    setFontFamily,
-    fontSize,
-    setFontSize,
     glitchOnHover,
     setGlitchOnHover,
     columnMode,
@@ -139,10 +112,6 @@ const Dashboard = ({
     const [showProjectsDropdown, setShowProjectsDropdown] = useState(false);
     const projectsDropdownRef = useRef(null);
     const settingsRef = useRef(null);
-    const fontDropdownRef = useRef(null);
-    const [fontDropdownOpen, setFontDropdownOpen] = useState(false);
-    const [fontDropdownIndex, setFontDropdownIndex] = useState(0);
-    const [fontsOpen, setFontsOpen] = useState(true);
     const [hoveredCard, setHoveredCard] = useState(null);
     const primaryColor = '#5227FF'; // Or use your CSS variable if available
 
@@ -167,53 +136,6 @@ const Dashboard = ({
         document.addEventListener('mousedown', handleClick);
         return () => document.removeEventListener('mousedown', handleClick);
     }, [showProjectsDropdown]);
-
-    useEffect(() => {
-        document.body.style.fontFamily = fontFamily;
-    }, [fontFamily]);
-
-    useEffect(() => {
-        if (!showSettings) return;
-        function handleClick(e) {
-            if (settingsRef.current && !settingsRef.current.contains(e.target)) {
-                setShowSettings(false);
-            }
-        }
-        document.addEventListener('mousedown', handleClick);
-        return () => document.removeEventListener('mousedown', handleClick);
-    }, [showSettings]);
-
-    useEffect(() => {
-        document.body.style.fontSize = fontSize;
-        document.body.style.transition = 'font-size 0.3s ease, font-family 0.3s ease';
-        localStorage.setItem('fontSize', fontSize);
-    }, [fontSize]);
-
-    useEffect(() => {
-        document.body.style.fontFamily = fontFamily;
-        document.body.style.transition = 'font-size 0.3s ease, font-family 0.3s ease';
-        localStorage.setItem('fontFamily', fontFamily);
-        const fontObj = FONT_OPTIONS.find(f => f.fontFamily === fontFamily);
-        if (fontObj) loadFont(fontObj);
-    }, [fontFamily]);
-
-    function handleFontDropdownKeyDown(e) {
-        if (!fontDropdownOpen) return;
-        if (e.key === 'ArrowDown') {
-            setFontDropdownIndex(i => (i + 1) % FONT_OPTIONS.length);
-            e.preventDefault();
-        } else if (e.key === 'ArrowUp') {
-            setFontDropdownIndex(i => (i - 1 + FONT_OPTIONS.length) % FONT_OPTIONS.length);
-            e.preventDefault();
-        } else if (e.key === 'Enter') {
-            const opt = FONT_OPTIONS[fontDropdownIndex];
-            setFontFamily(opt.fontFamily);
-            setFontDropdownOpen(false);
-            setShowSettings(false);
-            loadFont(opt);
-            e.preventDefault();
-        }
-    }
 
     return (
         <div className={`app-root ${isSidebarPinned ? "sidebar-pinned" : ""}`}
@@ -654,11 +576,6 @@ function App() {
     const [backgroundType, setBackgroundType] = useState(() => localStorage.getItem("backgroundType") || "particles");
     const [showAnalytics, setShowAnalytics] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
-    const [fontFamily, setFontFamily] = useState(() => {
-        const stored = localStorage.getItem('fontFamily');
-        return stored || FONT_OPTIONS[0].fontFamily;
-    });
-    const [fontSize, setFontSize] = useState(() => localStorage.getItem('fontSize') || '16px');
     const settingsRef = useRef(null);
     const [glitchOnHover, setGlitchOnHover] = useState(() => {
         const stored = localStorage.getItem('glitchOnHover');
@@ -776,12 +693,6 @@ function App() {
     useEffect(() => {
         localStorage.setItem("backgroundType", backgroundType);
     }, [backgroundType]);
-
-    // When fontFamily changes, update body and localStorage, and load font if needed
-    useEffect(() => {
-        document.body.style.fontFamily = fontFamily;
-        localStorage.setItem('fontFamily', fontFamily);
-    }, [fontFamily]);
 
     const handleEdit = (task) => {
         const formattedTask = {
@@ -933,10 +844,6 @@ function App() {
                 setShowAnalytics={setShowAnalytics}
                 showSettings={showSettings}
                 setShowSettings={setShowSettings}
-                fontFamily={fontFamily}
-                setFontFamily={setFontFamily}
-                fontSize={fontSize}
-                setFontSize={setFontSize}
                 glitchOnHover={glitchOnHover}
                 setGlitchOnHover={setGlitchOnHover}
                 columnMode={columnMode}
