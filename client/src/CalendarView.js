@@ -12,6 +12,7 @@ function isSameDay(date1, date2) {
 
 const CalendarView = ({ tasks, isDarkMode }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [activeStartDate, setActiveStartDate] = useState(new Date());
 
     // Find tasks for the selected date
     const tasksForSelectedDate = tasks.filter(task => {
@@ -32,13 +33,44 @@ const CalendarView = ({ tasks, isDarkMode }) => {
         return null;
     };
 
+    // Today button handler
+    const handleToday = () => {
+        const today = new Date();
+        setSelectedDate(today);
+        setActiveStartDate(today);
+    };
+
     return (
         <div className={`calendar-view${isDarkMode ? ' dark' : ''}`}
             style={{ padding: 24, minHeight: 400 }}>
+            <button
+                onClick={handleToday}
+                className="calendar-today-btn"
+                style={{
+                    marginBottom: 16,
+                    alignSelf: 'flex-end',
+                    background: isDarkMode ? '#fff' : '#111',
+                    color: isDarkMode ? '#111' : '#fff',
+                    border: 'none',
+                    borderRadius: 8,
+                    padding: '6px 18px',
+                    fontFamily: 'inherit',
+                    fontWeight: 600,
+                    fontSize: '1rem',
+                    cursor: 'pointer',
+                    boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+                    transition: 'background 0.15s, color 0.15s',
+                }}
+                aria-label="Go to today"
+            >
+                Today
+            </button>
             <Calendar
                 onChange={setSelectedDate}
                 value={selectedDate}
                 tileClassName={tileClassName}
+                activeStartDate={activeStartDate}
+                onActiveStartDateChange={({ activeStartDate }) => setActiveStartDate(activeStartDate)}
             />
             <div style={{ marginTop: 24 }}>
                 <h3>Tasks for {selectedDate.toLocaleDateString()}:</h3>

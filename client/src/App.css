@@ -2650,7 +2650,7 @@ body.dark .task-card.completed .task-title {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.35);
+  background: transparent !important;
   z-index: 10000;
   display: flex;
   align-items: center;
@@ -2938,4 +2938,164 @@ body.dark .search-modal-content kbd {
 .calendar-view.dark .react-calendar__navigation button,
 .calendar-view.dark .react-calendar__navigation__label {
   color: #b91c1c !important;
+}
+
+/* Calendar: Only use black/white text, red only for Sundays */
+.calendar-view {
+  color: #111;
+}
+
+.calendar-view.dark {
+  color: #fff;
+}
+
+.react-calendar__month-view__weekdays {
+  color: #111;
+}
+
+.calendar-view.dark .react-calendar__month-view__weekdays {
+  color: #fff;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  color: #111;
+  border-bottom: 1.5px dotted #bbb;
+}
+
+.calendar-view.dark .react-calendar__month-view__weekdays__weekday {
+  color: #fff;
+}
+
+.react-calendar__month-view__weekdays__weekday:last-child {
+  color: #b91c1c !important;
+}
+
+.react-calendar__tile {
+  color: #111;
+  background: none;
+}
+
+.calendar-view.dark .react-calendar__tile {
+  color: #fff;
+}
+
+.react-calendar__month-view__days__day--weekend:last-child {
+  color: #b91c1c !important;
+}
+
+.react-calendar__tile--active {
+  background: #111 !important;
+  color: #fff !important;
+}
+
+.calendar-view.dark .react-calendar__tile--active {
+  background: #fff !important;
+  color: #111 !important;
+}
+
+.calendar-has-task {
+  color: #111 !important;
+  border: 2px solid #111;
+}
+
+.calendar-view.dark .calendar-has-task {
+  color: #fff !important;
+  border: 2px solid #fff;
+}
+
+.calendar-view h3,
+.calendar-view ul,
+.calendar-view li,
+.calendar-view li strong {
+  color: inherit;
+}
+
+/* Remove all other red */
+.search-modal-content,
+.react-calendar__navigation button,
+.react-calendar__navigation__label {
+  color: #111 !important;
+}
+
+.calendar-view.dark .search-modal-content,
+.calendar-view.dark .react-calendar__navigation button,
+.calendar-view.dark .react-calendar__navigation__label {
+  color: #fff !important;
+}
+
+/* Only Sundays and their dates are red */
+.react-calendar__month-view__weekdays__weekday {
+  color: #111;
+  border-bottom: 1.5px dotted #bbb;
+}
+
+.calendar-view.dark .react-calendar__month-view__weekdays__weekday {
+  color: #fff;
+}
+
+.react-calendar__month-view__weekdays__weekday:nth-child(7) {
+  color: #b91c1c !important;
+}
+
+.react-calendar__month-view__days__day {
+  color: #111;
+}
+
+.calendar-view.dark .react-calendar__month-view__days__day {
+  color: #fff;
+}
+
+.react-calendar__month-view__days__day:nth-child(7n) {
+  color: #b91c1c !important;
+}
+
+/* Calendar dark mode color fixes */
+.calendar-view.dark {
+  color: #fff;
+}
+
+.calendar-view.dark .react-calendar__month-view__weekdays__weekday {
+  color: #fff;
+}
+
+.calendar-view.dark .react-calendar__month-view__weekdays__weekday:nth-child(7) {
+  color: #b91c1c !important;
+}
+
+.calendar-view.dark .react-calendar__month-view__days__day {
+  color: #fff;
+}
+
+.calendar-view.dark .react-calendar__month-view__days__day:nth-child(7n) {
+  color: #b91c1c !important;
+}
+
+.calendar-view.dark .react-calendar__tile--active {
+  background: #fff !important;
+  color: #111 !important;
+}
+
+.calendar-view.dark .calendar-has-task {
+  color: #fff !important;
+  border: 2px solid #fff;
+}
+
+/* Calendar dark mode: black background */
+.calendar-view.dark .react-calendar {
+  background: #111 !important;
+}
+
+.calendar-view.dark .react-calendar__month-view__weekdays,
+.calendar-view.dark .react-calendar__month-view__days__day {
+  background: #111 !important;
+}
+
+.calendar-view.dark .react-calendar__tile {
+  background: #111 !important;
+  color: #fff;
+}
+
+.calendar-view.dark .react-calendar__tile--active {
+  background: #fff !important;
+  color: #111 !important;
 }

@@ -641,7 +641,7 @@ const Dashboard = ({
                         left: 0,
                         width: '100vw',
                         height: '100vh',
-                        background: 'rgba(0,0,0,0.35)',
+                        background: 'transparent',
                         zIndex: 10000,
                         display: 'flex',
                         alignItems: 'center',
@@ -654,7 +654,7 @@ const Dashboard = ({
                     <div
                         className="search-modal-content"
                         style={{
-                            background: isDarkMode ? '#23272f' : '#fff',
+                            background: 'transparent',
                             color: isDarkMode ? '#fff' : '#111',
                             borderRadius: 12,
                             boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
@@ -713,7 +713,7 @@ const Dashboard = ({
                         left: 0,
                         width: '100vw',
                         height: '100vh',
-                        background: 'rgba(0,0,0,0.35)',
+                        background: 'transparent',
                         zIndex: 10000,
                         display: 'flex',
                         alignItems: 'center',
@@ -726,7 +726,7 @@ const Dashboard = ({
                     <div
                         className="search-modal-content"
                         style={{
-                            background: isDarkMode ? '#23272f' : '#fff',
+                            background: 'transparent',
                             color: isDarkMode ? '#fff' : '#111',
                             borderRadius: 12,
                             boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
