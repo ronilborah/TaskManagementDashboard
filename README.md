@@ -44,14 +44,3 @@ npm start
 - **Backend**: Node.js, Express, MongoDB, Mongoose
 - **Deployment**: Frontend on Vercel, Backend on Render
 
----
-
-## API Endpoints
-- `GET    /api/projects`   - List all projects
-- `POST   /api/projects`   - Create a new project
-- `PUT    /api/projects/:id` - Update a project
-- `DELETE /api/projects/:id` - Delete a project
-- `GET    /api/tasks`      - List all tasks (with filters)
-- `POST   /api/tasks`      - Create a new task
-- `PUT    /api/tasks/:id`  - Update a task
-- `DELETE /api/tasks/:id`  - Delete a task
