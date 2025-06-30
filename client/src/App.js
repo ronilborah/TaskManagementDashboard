@@ -16,7 +16,7 @@ import KeyboardNavigationSupport from "./KeyboardNavigationSupport";
 import Threads from './Threads';
 import ShapeBlur from './ShapeBlur';
 import Dock from "./Dock";
-import { VscSearch, VscFilter, VscCalendar, VscAdd, VscColorMode, VscSymbolColor, VscGraph, VscSettingsGear } from "react-icons/vsc";
+import { VscSearch, VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscGraph, VscSettingsGear } from "react-icons/vsc";
 
 // Dynamically load Google Fonts only when selected
 function loadFont(font) {
@@ -118,9 +118,6 @@ const Dashboard = ({
     handleStatusUpdate,
     handleDragEnd,
     handleChange,
-    showUnifiedCalendar,
-    setShowUnifiedCalendar,
-    fetchAllTasks,
     backgroundType,
     setBackgroundType,
     showBgModal,
@@ -361,13 +358,6 @@ const Dashboard = ({
                                     </section>
                                     <div className="header-actions mobile-header-actions">
                                         <button className="plain-text-btn" onClick={() => setShowFilters(s => !s)} title="Show Filters">Filter</button>
-                                        <button className="icon-btn" onClick={() => setShowUnifiedCalendar(true)} title="Calendar View" aria-label="Calendar">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                        </button>
-                                        <button className="plain-text-btn add-task-btn" onClick={() => { setEditId(null); setForm(defaultTaskWithRecurrence); setShowAddTaskForm(s => !s); }} title="Add Task">+</button>
-                                        <button className="plain-text-btn dark-toggle" onClick={() => setIsDarkMode((d) => !d)} title="Toggle Dark/Light" aria-label="Toggle Dark/Light">
-                                            {isDarkMode ? 'Light' : 'Dark'}
-                                        </button>
                                         <button className="plain-text-btn" onClick={() => setShowBgModal(true)} title="Change Background">Background</button>
                                         <button className="icon-btn" onClick={() => setShowAnalytics(true)} title="Show Analytics" aria-label="Analytics">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="12" width="4" height="8"></rect><rect x="9" y="8" width="4" height="12"></rect><rect x="15" y="4" width="4" height="16"></rect></svg>
@@ -652,7 +642,6 @@ const Dashboard = ({
 function App() {
     const [projects, setProjects] = useState([]);
     const [tasks, setTasks] = useState([]);
-    const [allTasks, setAllTasks] = useState([]);
     const [selectedProjectId, setSelectedProjectId] = useState(() => {
         return localStorage.getItem("selectedProjectId") || null;
     });
@@ -667,7 +656,6 @@ function App() {
     const [sortBy, setSortBy] = useState("priority");
     const [showFilters, setShowFilters] = useState(false);
     const [showAddTaskForm, setShowAddTaskForm] = useState(false);
-    const [showUnifiedCalendar, setShowUnifiedCalendar] = useState(false);
     const [form, setForm] = useState(defaultTaskWithRecurrence);
     const [editId, setEditId] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -681,7 +669,6 @@ function App() {
     });
     const [fontSize, setFontSize] = useState(() => localStorage.getItem('fontSize') || '16px');
     const settingsRef = useRef(null);
-    const [fontsOpen, setFontsOpen] = useState(true);
     const [glitchOnHover, setGlitchOnHover] = useState(() => {
         const stored = localStorage.getItem('glitchOnHover');
         return stored ? stored === 'true' : true;
@@ -773,17 +760,6 @@ function App() {
         }
     }, [selectedProjectId, filterPriority, filterStatus, filterAssignee, filterDate, search, sortBy]);
 
-    const fetchAllTasks = useCallback(async () => {
-        // This function can be used by the calendar to get all tasks
-        try {
-            const response = await api.getTasks();
-            setAllTasks(response.data.data); // Also update a state for MatrixPage
-            return response.data.data;
-        } catch (error) {
-            return [];
-        }
-    }, []);
-
     // --- useEffect hooks for initial load and persistence ---
 
     useEffect(() => {
@@ -804,10 +780,6 @@ function App() {
     useEffect(() => {
         fetchTasks();
     }, [fetchTasks]);
-
-    useEffect(() => {
-        fetchAllTasks();
-    }, [fetchAllTasks])
 
     useEffect(() => {
         localStorage.setItem("backgroundType", backgroundType);
@@ -947,9 +919,6 @@ function App() {
                 handleStatusUpdate={handleStatusUpdate}
                 handleDragEnd={handleDragEnd}
                 handleChange={handleChange}
-                showUnifiedCalendar={showUnifiedCalendar}
-                setShowUnifiedCalendar={setShowUnifiedCalendar}
-                fetchAllTasks={fetchAllTasks}
                 backgroundType={backgroundType}
                 setBackgroundType={setBackgroundType}
                 showBgModal={showBgModal}
