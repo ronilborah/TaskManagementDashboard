@@ -1262,7 +1262,7 @@ body.dark .task-card.completed .task-title {
 
 .task-title {
   font-weight: 400;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   margin-bottom: 8px;
   color: var(--text-main);
   position: relative;
@@ -1275,7 +1275,7 @@ body.dark .task-title {
 
 .task-body {
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: 1.2rem;
   margin-bottom: 10px;
 }
 
@@ -1284,7 +1284,7 @@ body.dark .task-body {
 }
 
 .task-meta {
-  font-size: 0.93rem;
+  font-size: 1.2rem;
   color: var(--text-muted);
   display: flex;
   gap: 1.2rem;
