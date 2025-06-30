@@ -68,9 +68,8 @@ function TaskList({
 
     // Counts
     const { overdue } = getCounts(tasks);
-    const allTasksForProject = selectedProjectId ? tasks.filter(t => t.projectId._id === selectedProjectId) : [];
-    const totalTasks = allTasksForProject.length;
-    const completedTasks = allTasksForProject.filter(t => t.status === 'Done').length;
+    const totalTasks = tasks.length;
+    const completedTasks = tasks.filter(t => t.status === 'Done').length;
 
     if (!selectedProjectId) {
         return (

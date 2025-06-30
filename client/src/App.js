@@ -116,10 +116,9 @@ const Dashboard = ({
     // --- MOBILE STATUS COUNTS ---
     let completedTasks = 0, totalTasks = 0, overdue = 0;
     if (window.innerWidth <= 768) {
-        const allTasksForProject = selectedProjectId ? tasks.filter(t => t.projectId._id === selectedProjectId) : [];
-        totalTasks = allTasksForProject.length;
-        completedTasks = allTasksForProject.filter(t => t.status === 'Done').length;
-        overdue = allTasksForProject.filter(
+        totalTasks = tasks.length;
+        completedTasks = tasks.filter(t => t.status === 'Done').length;
+        overdue = tasks.filter(
             t => t.dueDate && t.status !== 'Done' && new Date(t.dueDate) < new Date(new Date().toDateString())
         ).length;
     }
