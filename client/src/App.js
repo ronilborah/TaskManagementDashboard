@@ -12,7 +12,7 @@ import KeyboardNavigationSupport from "./KeyboardNavigationSupport";
 import Threads from './Threads';
 import ShapeBlur from './ShapeBlur';
 import Dock from "./Dock";
-import { VscSearch, VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscGraph } from "react-icons/vsc";
+import { VscSearch, VscFilter, VscAdd, VscColorMode, VscSymbolColor } from "react-icons/vsc";
 
 const PRIORITIES = [
     { label: "High", value: 3 },
@@ -97,8 +97,6 @@ const Dashboard = ({
     setBackgroundType,
     showBgModal,
     setShowBgModal,
-    showAnalytics,
-    setShowAnalytics,
     showSettings,
     setShowSettings,
     glitchOnHover,
@@ -280,9 +278,6 @@ const Dashboard = ({
                                     <div className="header-actions mobile-header-actions">
                                         <button className="plain-text-btn" onClick={() => setShowFilters(s => !s)} title="Show Filters">Filter</button>
                                         <button className="plain-text-btn" onClick={() => setShowBgModal(true)} title="Change Background">Background</button>
-                                        <button className="icon-btn" onClick={() => setShowAnalytics(true)} title="Show Analytics" aria-label="Analytics">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="12" width="4" height="8"></rect><rect x="9" y="8" width="4" height="12"></rect><rect x="15" y="4" width="4" height="16"></rect></svg>
-                                        </button>
                                         <button
                                             className="icon-btn settings-btn"
                                             aria-label="Settings"
@@ -322,9 +317,6 @@ const Dashboard = ({
                                             },
                                             {
                                                 icon: <VscSymbolColor size={24} />, label: "Background", onClick: () => setShowBgModal(true),
-                                            },
-                                            {
-                                                icon: <VscGraph size={24} />, label: "Analytics", onClick: () => setShowAnalytics(true),
                                             },
                                         ]}
                                         panelHeight={68}
@@ -580,7 +572,6 @@ function App() {
     const [loading, setLoading] = useState(false);
     const [showBgModal, setShowBgModal] = useState(false);
     const [backgroundType, setBackgroundType] = useState(() => localStorage.getItem("backgroundType") || "particles");
-    const [showAnalytics, setShowAnalytics] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
     const [glitchOnHover, setGlitchOnHover] = useState(() => {
         const stored = localStorage.getItem('glitchOnHover');
@@ -848,8 +839,6 @@ function App() {
                 setBackgroundType={setBackgroundType}
                 showBgModal={showBgModal}
                 setShowBgModal={setShowBgModal}
-                showAnalytics={showAnalytics}
-                setShowAnalytics={setShowAnalytics}
                 showSettings={showSettings}
                 setShowSettings={setShowSettings}
                 glitchOnHover={glitchOnHover}
