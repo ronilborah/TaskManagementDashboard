@@ -11,8 +11,9 @@ import AriaLabelsInjector from "./AriaLabelsInjector";
 import KeyboardNavigationSupport from "./KeyboardNavigationSupport";
 import Threads from './Threads';
 import ShapeBlur from './ShapeBlur';
-import Dock from "./Dock";
-import { VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscSearch } from "react-icons/vsc";
+import { StaticDock } from "./Dock";
+import { VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscSearch, VscLayout } from "react-icons/vsc";
+import TaskGridView from "./TaskGridView";
 
 const PRIORITIES = [
     { label: "High", value: 3 },
@@ -103,6 +104,8 @@ const Dashboard = ({
     setGlitchOnHover,
     columnMode,
     setColumnMode,
+    gridView,
+    setGridView,
 }) => {
     const isSidebarVisible = isSidebarHovering || isSidebarPinned;
     const [showProjectsDropdown, setShowProjectsDropdown] = useState(false);
@@ -347,7 +350,7 @@ const Dashboard = ({
                                     />
                                 </div>
                                 <div style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center' }}>
-                                    <Dock
+                                    <StaticDock
                                         items={[
                                             {
                                                 icon: <VscSearch size={24} />, label: "Search", onClick: () => setShowSearchModal(true),
@@ -372,10 +375,12 @@ const Dashboard = ({
                                                     setShowBgModal(true);
                                                 },
                                             },
+                                            {
+                                                icon: <VscLayout size={24} />, label: "Grid", onClick: () => setGridView((v) => !v),
+                                            },
                                         ]}
                                         panelHeight={68}
                                         baseItemSize={50}
-                                        magnification={50}
                                     />
                                 </div>
                             </>
@@ -517,28 +522,46 @@ const Dashboard = ({
                     )}
 
                     <main className="dashboard-main">
-                        <TaskList
-                            tasks={tasks}
-                            handleEdit={handleEdit}
-                            handleDelete={handleDelete}
-                            handleStatusUpdate={handleStatusUpdate}
-                            onDragEnd={handleDragEnd}
-                            loading={loading}
-                            projects={projects}
-                            selectedProjectId={selectedProjectId}
-                            fetchTasks={fetchTasks}
-                            showAddTaskForm={showAddTaskForm}
-                            setShowAddTaskForm={setShowAddTaskForm}
-                            editId={editId}
-                            setEditId={setEditId}
-                            form={form}
-                            setForm={setForm}
-                            handleSubmit={handleSubmit}
-                            handleChange={handleChange}
-                            glitchOnHover={glitchOnHover}
-                            columnMode={columnMode}
-                            setColumnMode={setColumnMode}
-                        />
+                        {gridView ? (
+                            <TaskGridView
+                                tasks={tasks}
+                                handleEdit={handleEdit}
+                                handleDelete={handleDelete}
+                                handleStatusUpdate={handleStatusUpdate}
+                                editId={editId}
+                                form={form}
+                                setForm={setForm}
+                                handleSubmit={handleSubmit}
+                                handleChange={handleChange}
+                                setEditId={setEditId}
+                                setShowAddTaskForm={setShowAddTaskForm}
+                                selectedProjectId={selectedProjectId}
+                                projects={projects}
+                            />
+                        ) : (
+                            <TaskList
+                                tasks={tasks}
+                                handleEdit={handleEdit}
+                                handleDelete={handleDelete}
+                                handleStatusUpdate={handleStatusUpdate}
+                                onDragEnd={handleDragEnd}
+                                loading={loading}
+                                projects={projects}
+                                selectedProjectId={selectedProjectId}
+                                fetchTasks={fetchTasks}
+                                showAddTaskForm={showAddTaskForm}
+                                setShowAddTaskForm={setShowAddTaskForm}
+                                editId={editId}
+                                setEditId={setEditId}
+                                form={form}
+                                setForm={setForm}
+                                handleSubmit={handleSubmit}
+                                handleChange={handleChange}
+                                glitchOnHover={glitchOnHover}
+                                columnMode={columnMode}
+                                setColumnMode={setColumnMode}
+                            />
+                        )}
                     </main>
                 </div>
             </DragDropContext>
@@ -704,6 +727,7 @@ function App() {
         return stored ? stored === 'true' : true;
     });
     const [columnMode, setColumnMode] = useState("status");
+    const [gridView, setGridView] = useState(false);
 
     // --- Project Handlers ---
 
@@ -971,6 +995,8 @@ function App() {
                 setGlitchOnHover={setGlitchOnHover}
                 columnMode={columnMode}
                 setColumnMode={setColumnMode}
+                gridView={gridView}
+                setGridView={setGridView}
             />
             <AriaLabelsInjector />
             <KeyboardNavigationSupport />

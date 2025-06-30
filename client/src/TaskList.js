@@ -301,3 +301,4 @@ const TaskCard = ({
 );
 
 export default TaskList;
+export { TaskCard };

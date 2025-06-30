@@ -2714,3 +2714,23 @@ body.dark .search-modal-content kbd {
   background: #333;
   color: #fff;
 }
+
+/* Grid View Styles */
+.task-grid-view {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .task-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}

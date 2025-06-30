@@ -68,6 +68,31 @@ function DockItem({
     );
 }
 
+function DockItemStatic({
+    children,
+    className = "",
+    onClick,
+    baseItemSize,
+}) {
+    return (
+        <div
+            style={{
+                width: baseItemSize,
+                height: baseItemSize,
+            }}
+            onClick={onClick}
+            className={`dock-item ${className}`}
+            tabIndex={0}
+            role="button"
+            aria-haspopup="true"
+        >
+            {Children.map(children, (child) =>
+                cloneElement(child, { isHovered: { get: () => 0, on: () => () => { } } })
+            )}
+        </div>
+    );
+}
+
 function DockLabel({ children, className = "", ...rest }) {
     const { isHovered } = rest;
     const [isVisible, setIsVisible] = useState(false);
@@ -170,6 +195,57 @@ export default function Dock({
                         <DockIcon>{item.icon}</DockIcon>
                         <DockLabel>{item.label}</DockLabel>
                     </DockItem>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export function StaticDock({
+    items,
+    className = "",
+    panelHeight = 68,
+    baseItemSize = 50,
+}) {
+    // Hardcode dockTransparency to 0.1
+    const dockTransparency = 0.1;
+    const isDark = document.body.classList.contains('dark');
+    const bgColor = isDark
+        ? `rgba(24, 24, 27, ${dockTransparency})`
+        : `rgba(248, 250, 252, ${dockTransparency})`;
+    const borderColor = isDark ? '#444' : '#222';
+    return (
+        <div
+            style={{ height: 'auto', scrollbarWidth: "none" }}
+            className="dock-outer"
+        >
+            <div
+                className={`dock-panel ${className}`}
+                style={{
+                    height: panelHeight,
+                    backgroundColor: bgColor,
+                    border: `1px solid ${borderColor}`,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                    borderRadius: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    zIndex: 20,
+                    padding: '0.25rem 0.75rem',
+                }}
+                role="toolbar"
+                aria-label="Application dock"
+            >
+                {items.map((item, index) => (
+                    <DockItemStatic
+                        key={index}
+                        onClick={item.onClick}
+                        className={item.className}
+                        baseItemSize={baseItemSize}
+                    >
+                        <DockIcon>{item.icon}</DockIcon>
+                        <DockLabel>{item.label}</DockLabel>
+                    </DockItemStatic>
                 ))}
             </div>
         </div>
