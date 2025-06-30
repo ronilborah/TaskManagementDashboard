@@ -18,9 +18,7 @@
 
 ---
 
-## Getting Started (Local Development)
-
-### Quick Start
+## Quick Start(Local Development)
 ```sh
 git clone https://github.com/ronilborah/TaskManagementDashboard.git
 cd TaskManagementDashboard
