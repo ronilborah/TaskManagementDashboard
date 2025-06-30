@@ -30,6 +30,7 @@
         "npm": ">=6.0.0"
     },
     "dependencies": {
+        "react-calendar": "^6.0.0",
         "react-icons": "^5.5.0"
     }
 }

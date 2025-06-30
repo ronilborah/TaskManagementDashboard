@@ -12,8 +12,9 @@ import KeyboardNavigationSupport from "./KeyboardNavigationSupport";
 import Threads from './Threads';
 import ShapeBlur from './ShapeBlur';
 import { StaticDock } from "./Dock";
-import { VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscSearch, VscLayout } from "react-icons/vsc";
+import { VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscSearch, VscLayout, VscCalendar } from "react-icons/vsc";
 import TaskGridView from "./TaskGridView";
+import CalendarView from "./CalendarView";
 
 const PRIORITIES = [
     { label: "High", value: 3 },
@@ -106,6 +107,8 @@ const Dashboard = ({
     setColumnMode,
     gridView,
     setGridView,
+    showCalendarModal,
+    setShowCalendarModal,
 }) => {
     const isSidebarVisible = isSidebarHovering || isSidebarPinned;
     const [showProjectsDropdown, setShowProjectsDropdown] = useState(false);
@@ -364,6 +367,9 @@ const Dashboard = ({
                                                 icon: <VscAdd size={24} />, label: "Add Task", onClick: () => {
                                                     setEditId(null); setForm(defaultTaskWithRecurrence); setShowAddTaskForm((s) => !s);
                                                 },
+                                            },
+                                            {
+                                                icon: <VscCalendar size={24} />, label: "Calendar", onClick: () => setShowCalendarModal(true),
                                             },
                                             {
                                                 icon: <VscColorMode size={24} />, label: isDarkMode ? "Light" : "Dark", onClick: () => {
@@ -694,6 +700,66 @@ const Dashboard = ({
                     </div>
                 </div>
             )}
+            {/* Calendar Modal Overlay */}
+            {showCalendarModal && (
+                <div
+                    className="search-modal-overlay"
+                    tabIndex={-1}
+                    aria-modal="true"
+                    role="dialog"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        background: 'rgba(0,0,0,0.35)',
+                        zIndex: 10000,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                    onClick={e => {
+                        if (e.target === e.currentTarget) setShowCalendarModal(false);
+                    }}
+                >
+                    <div
+                        className="search-modal-content"
+                        style={{
+                            background: isDarkMode ? '#23272f' : '#fff',
+                            color: isDarkMode ? '#fff' : '#111',
+                            borderRadius: 12,
+                            boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+                            padding: 32,
+                            minWidth: 340,
+                            maxWidth: '90vw',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'stretch',
+                            position: 'relative',
+                        }}
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <button
+                            aria-label="Close calendar"
+                            onClick={() => setShowCalendarModal(false)}
+                            style={{
+                                position: 'absolute',
+                                top: 12,
+                                right: 12,
+                                background: 'none',
+                                border: 'none',
+                                color: isDarkMode ? '#fff' : '#111',
+                                fontSize: 22,
+                                cursor: 'pointer',
+                            }}
+                        >
+                            ×
+                        </button>
+                        <CalendarView tasks={tasks} isDarkMode={isDarkMode} />
+                    </div>
+                </div>
+            )}
         </div>
     )
 };
@@ -728,6 +794,7 @@ function App() {
     });
     const [columnMode, setColumnMode] = useState("status");
     const [gridView, setGridView] = useState(false);
+    const [showCalendarModal, setShowCalendarModal] = useState(false);
 
     // --- Project Handlers ---
 
@@ -997,6 +1064,8 @@ function App() {
                 setColumnMode={setColumnMode}
                 gridView={gridView}
                 setGridView={setGridView}
+                showCalendarModal={showCalendarModal}
+                setShowCalendarModal={setShowCalendarModal}
             />
             <AriaLabelsInjector />
             <KeyboardNavigationSupport />
