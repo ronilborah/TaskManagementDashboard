@@ -20,9 +20,6 @@
 
 ## Getting Started (Local Development)
 
-### Prerequisites
-- Node.js (v18+ recommended)
-
 ### Quick Start
 ```sh
 git clone https://github.com/ronilborah/TaskManagementDashboard.git
@@ -34,11 +31,18 @@ npm start
 - Open [http://localhost:3000](http://localhost:3000) (or the port shown in your terminal) in your browser.
 - All data will be stored in your browser's localStorage.
 
-
 ---
 
 ## Tech Stack
-- **Frontend**: React, React Router, React DnD, TailwindCSS, Framer Motion, React Toastify, Axios
+- **Frontend**: React, React Router, React DnD, TailwindCSS, Framer Motion, Axios
 - **Backend**: Node.js, Express, MongoDB, Mongoose
 - **Deployment**: Frontend on Vercel, Backend on Render
+
+## AI Tools used
+During the development of this project, several AI tools were utilized to enhance productivity and streamline the development process:
+- v0.dev – Used to generate and prototype UI components quickly, which served as a base for several front-end elements.
+- Claude – Assisted in drafting and refining parts of the backend logic, helping to structure API routes and handle server-side functionality.
+- Cursor – Used as an AI-powered coding assistant to integrate and refactor various code components into a cohesive, functional project.
+
+These tools significantly accelerated the development timeline and supported a smoother transition from ideation to implementation.
 
