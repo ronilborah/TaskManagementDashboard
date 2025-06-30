@@ -209,12 +209,13 @@ const TaskCard = ({
 }) => (
     <>
         <div
-            className={`task-card ${task.status === "Done" ? "completed" : ""}`}
+            className={`task-card ${task.status === "Done" ? "completed" : ""} priority-${task.priority?.toLowerCase()}`}
             tabIndex="0"
         >
             <div className="task-title">{task.title}</div>
             {task.description && <p className="task-body">{task.description}</p>}
             <div className="task-meta">
+                <span>Priority: {task.priority}</span>
                 <span>Status: {task.status}</span>
                 {task.dueDate && <span>Due: {new Date(task.dueDate).toLocaleDateString()}</span>}
                 {task.assignee && <span>To: {task.assignee}</span>}

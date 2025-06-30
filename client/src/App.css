@@ -2602,3 +2602,25 @@ body.dark .settings-theme-toggle:hover {
   border-color: #ff8a65;
   color: #ff7043;
 }
+
+.task-card.priority-high {
+  border-left: 3px solid var(--priority-high-border);
+}
+
+.task-card.priority-medium {
+  border-left: 3px solid var(--priority-medium-border);
+}
+
+.task-card.priority-low {
+  border-left: 3px solid var(--priority-low-border);
+}
+
+body.dark .task-card.completed .task-title {
+  color: var(--text-muted-dark);
+}
+
+.sort-order-btn {
+  padding: 8px 12px;
+  font-size: 1.2rem;
+  line-height: 1;
+}

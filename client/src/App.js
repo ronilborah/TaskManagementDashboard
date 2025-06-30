@@ -72,6 +72,8 @@ const Dashboard = ({
     setFilterDate,
     sortBy,
     setSortBy,
+    sortOrder,
+    setSortOrder,
     showFilters,
     setShowFilters,
     showAddTaskForm,
@@ -449,6 +451,13 @@ const Dashboard = ({
                                 <option value="createdAt">Sort by Creation Date</option>
                             </select>
                             <button
+                                className="action-btn sort-order-btn"
+                                onClick={() => setSortOrder(order => (order === 'asc' ? 'desc' : 'asc'))}
+                                aria-label={`Set sort order to ${sortOrder === 'asc' ? 'descending' : 'ascending'}`}
+                            >
+                                {sortOrder === 'asc' ? '↑' : '↓'}
+                            </button>
+                            <button
                                 className="filter-btn"
                                 onClick={() => {
                                     setFilterPriority("");
@@ -564,6 +573,7 @@ function App() {
     const [filterAssignee, setFilterAssignee] = useState("");
     const [filterDate, setFilterDate] = useState("");
     const [sortBy, setSortBy] = useState("priority");
+    const [sortOrder, setSortOrder] = useState("desc");
     const [showFilters, setShowFilters] = useState(false);
     const [showAddTaskForm, setShowAddTaskForm] = useState(false);
     const [form, setForm] = useState(defaultTaskWithRecurrence);
@@ -654,6 +664,7 @@ function App() {
                 dueDate: filterDate,
                 search: search,
                 sortBy: sortBy,
+                sortOrder: sortOrder,
             };
 
             const response = await api.getTasks(params);
@@ -663,7 +674,7 @@ function App() {
         } finally {
             setLoading(false);
         }
-    }, [selectedProjectId, filterPriority, filterStatus, filterAssignee, filterDate, search, sortBy]);
+    }, [selectedProjectId, filterPriority, filterStatus, filterAssignee, filterDate, search, sortBy, sortOrder]);
 
     // --- useEffect hooks for initial load and persistence ---
 
@@ -813,6 +824,8 @@ function App() {
                 setFilterDate={setFilterDate}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
                 showFilters={showFilters}
                 setShowFilters={setShowFilters}
                 showAddTaskForm={showAddTaskForm}

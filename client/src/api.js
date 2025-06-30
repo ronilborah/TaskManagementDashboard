@@ -137,20 +137,27 @@ const localStorageAPI = {
 
         // Sort tasks
         if (filters.sortBy) {
+            const priorityOrder = { "High": 3, "Medium": 2, "Low": 1 };
+
             filteredTasks.sort((a, b) => {
+                let comparison = 0;
                 switch (filters.sortBy) {
                     case 'priority':
-                        const priorityOrder = { high: 3, medium: 2, low: 1 };
-                        return priorityOrder[b.priority] - priorityOrder[a.priority];
+                        comparison = (priorityOrder[a.priority] || 0) - (priorityOrder[b.priority] || 0);
+                        break;
                     case 'dueDate':
-                        return new Date(a.dueDate || '9999-12-31') - new Date(b.dueDate || '9999-12-31');
-                    case 'title':
-                        return a.title.localeCompare(b.title);
+                        comparison = new Date(a.dueDate || '9999-12-31') - new Date(b.dueDate || '9999-12-31');
+                        break;
                     case 'createdAt':
-                        return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
+                        comparison = new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
+                        break;
+                    case 'title':
+                        comparison = a.title.localeCompare(b.title);
+                        break;
                     default:
-                        return 0;
+                        comparison = 0;
                 }
+                return filters.sortOrder === 'desc' ? comparison * -1 : comparison;
             });
         }
 
