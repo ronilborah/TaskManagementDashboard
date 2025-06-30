@@ -146,6 +146,8 @@ const localStorageAPI = {
                         return new Date(a.dueDate || '9999-12-31') - new Date(b.dueDate || '9999-12-31');
                     case 'title':
                         return a.title.localeCompare(b.title);
+                    case 'createdAt':
+                        return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
                     default:
                         return 0;
                 }

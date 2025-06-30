@@ -446,6 +446,7 @@ const Dashboard = ({
                             >
                                 <option value="priority">Sort by Priority</option>
                                 <option value="dueDate">Sort by Due Date</option>
+                                <option value="createdAt">Sort by Creation Date</option>
                             </select>
                             <button
                                 className="filter-btn"
