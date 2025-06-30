@@ -112,6 +112,7 @@ export default function Dock({
     dockHeight = 256,
     baseItemSize = 50,
 }) {
+    console.log('Dock items:', items);
     const mouseX = useMotionValue(Infinity);
     const isHovered = useMotionValue(0);
 

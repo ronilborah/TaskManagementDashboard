@@ -110,6 +110,9 @@ const Dashboard = ({
     const settingsRef = useRef(null);
     const [hoveredCard, setHoveredCard] = useState(null);
     const primaryColor = '#5227FF'; // Or use your CSS variable if available
+    const searchInputRef = useRef(null);
+    const [showMobileSearch, setShowMobileSearch] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     // --- MOBILE STATUS COUNTS ---
     let completedTasks = 0, totalTasks = 0, overdue = 0;
@@ -131,6 +134,21 @@ const Dashboard = ({
         document.addEventListener('mousedown', handleClick);
         return () => document.removeEventListener('mousedown', handleClick);
     }, [showProjectsDropdown]);
+
+    // Focus search input when search is shown
+    useEffect(() => {
+        if (showMobileSearch && searchInputRef.current) {
+            searchInputRef.current.focus();
+        }
+    }, [showMobileSearch]);
+
+    useEffect(() => {
+        function handleResize() {
+            setIsMobile(window.innerWidth <= 768);
+        }
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     return (
         <div className={`app-root ${isSidebarPinned ? "sidebar-pinned" : ""}`}
@@ -182,7 +200,7 @@ const Dashboard = ({
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><line x1="9" y1="3" x2="9" y2="21" /></svg>
                         </button>
                         {/* Mobile Top Bar */}
-                        {window.innerWidth <= 768 ? (
+                        {isMobile ? (
                             <>
                                 <div className="mobile-top-bar-row">
                                     <button
@@ -198,13 +216,25 @@ const Dashboard = ({
                                     <button
                                         className="icon-btn mobile-search-btn"
                                         aria-label="Search Tasks"
-                                        onClick={() => setShowFilters(s => !s)}
+                                        onClick={() => setShowMobileSearch(s => !s)}
                                         type="button"
                                         style={{ marginTop: 12, marginRight: 0 }}
                                     >
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
                                     </button>
                                 </div>
+                                {showMobileSearch && (
+                                    <div className="search-container main-search show-mobile-search" style={{ marginTop: 8 }}>
+                                        <input
+                                            className="filter-input"
+                                            placeholder="Search tasks..."
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                            ref={searchInputRef}
+                                            tabIndex={0}
+                                        />
+                                    </div>
+                                )}
                                 {/* Mobile status + actions row */}
                                 <div className="mobile-status-actions-row">
                                     <section className="counts-row hide-on-mobile">
@@ -293,30 +323,44 @@ const Dashboard = ({
                         ) : (
                             <>
                                 <div className="search-container main-search">
+                                    <div style={{ color: 'red', fontWeight: 'bold' }}>DEBUG: Search input rendered</div>
                                     <input
                                         className="filter-input"
                                         placeholder="Search tasks..."
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
+                                        ref={searchInputRef}
+                                        tabIndex={0}
+                                        style={{ border: '2px solid red' }}
+                                        onClick={() => console.log('Search input clicked', searchInputRef.current)}
                                     />
                                 </div>
                                 <div style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center' }}>
                                     <Dock
                                         items={[
                                             {
-                                                icon: <VscSearch size={24} />, label: "Search", onClick: () => setShowFilters((s) => !s),
+                                                icon: <VscFilter size={24} />, label: "Filter", onClick: () => {
+                                                    console.log('Dock Filter button clicked');
+                                                    setShowFilters((s) => !s);
+                                                },
                                             },
                                             {
-                                                icon: <VscFilter size={24} />, label: "Filter", onClick: () => setShowFilters((s) => !s),
+                                                icon: <VscAdd size={24} />, label: "Add Task", onClick: () => {
+                                                    console.log('Dock Add Task button clicked');
+                                                    setEditId(null); setForm(defaultTaskWithRecurrence); setShowAddTaskForm((s) => !s);
+                                                },
                                             },
                                             {
-                                                icon: <VscAdd size={24} />, label: "Add Task", onClick: () => { setEditId(null); setForm(defaultTaskWithRecurrence); setShowAddTaskForm((s) => !s); },
+                                                icon: <VscColorMode size={24} />, label: isDarkMode ? "Light" : "Dark", onClick: () => {
+                                                    console.log('Dock Color Mode button clicked');
+                                                    setIsDarkMode((d) => !d);
+                                                },
                                             },
                                             {
-                                                icon: <VscColorMode size={24} />, label: isDarkMode ? "Light" : "Dark", onClick: () => setIsDarkMode((d) => !d),
-                                            },
-                                            {
-                                                icon: <VscSymbolColor size={24} />, label: "Background", onClick: () => setShowBgModal(true),
+                                                icon: <VscSymbolColor size={24} />, label: "Background", onClick: () => {
+                                                    console.log('Dock Background button clicked');
+                                                    setShowBgModal(true);
+                                                },
                                             },
                                         ]}
                                         panelHeight={68}
@@ -508,7 +552,7 @@ const Dashboard = ({
                     </div>
                 </div>
             )}
-            {showProjectsDropdown && window.innerWidth <= 768 && (
+            {showProjectsDropdown && isMobile && (
                 <div
                     className="projects-dropdown-menu"
                     ref={projectsDropdownRef}

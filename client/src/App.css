@@ -1477,6 +1477,10 @@ body.dark .empty-hint {
     display: none !important;
   }
 
+  .main-search.show-mobile-search {
+    display: block !important;
+  }
+
   .projects-dropdown-btn {
     display: none !important;
   }
@@ -2300,8 +2304,22 @@ body.dark .tip {
 }
 
 @media (max-width: 768px) {
-  .search-container.main-search {
+
+  .main-search,
+  .search-container {
     display: none !important;
+  }
+
+  .main-search.show-mobile-search {
+    display: block !important;
+  }
+}
+
+@media (min-width: 769px) {
+
+  .main-search,
+  .search-container {
+    display: block !important;
   }
 }
 
