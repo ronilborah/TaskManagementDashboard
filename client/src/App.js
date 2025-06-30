@@ -589,19 +589,6 @@ const Dashboard = ({
                     </div>
                 </div>
             )}
-            {showAnalytics && (
-                <div className="unified-calendar-overlay" style={{ zIndex: 2000 }}>
-                    <div className="unified-calendar-modal" style={{ maxWidth: 400, width: '90vw', padding: 0 }}>
-                        <div className="unified-calendar-header" style={{ borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 24px' }}>
-                            <h2 style={{ margin: 0, fontSize: '1.1rem' }}>Dashboard Analytics</h2>
-                            <button className="unified-close-btn" onClick={() => setShowAnalytics(false)} aria-label="Close Analytics">×</button>
-                        </div>
-                        <div style={{ padding: 24 }}>
-                            <DashboardAnalytics tasks={tasks} />
-                        </div>
-                    </div>
-                </div>
-            )}
             {showProjectsDropdown && window.innerWidth <= 768 && (
                 <div
                     className="projects-dropdown-menu"

@@ -82,13 +82,6 @@ export default function AriaLabelsInjector() {
             input.setAttribute("role", "searchbox");
         });
 
-        // Example: Add ARIA labels to all calendar widgets
-        const calendars = document.querySelectorAll(".unified-calendar-wrapper, .calendar");
-        calendars.forEach(cal => {
-            cal.setAttribute("aria-label", "Calendar");
-            cal.setAttribute("role", "region");
-        });
-
         // Example: Add ARIA labels to all analytics panels
         const analytics = document.querySelectorAll(".dashboard-analytics");
         analytics.forEach(panel => {

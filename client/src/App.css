@@ -2209,7 +2209,7 @@ body.dark .dark-toggle {
   color: #fff !important;
 }
 
-/* Icon-only action buttons (Calendar, Analytics, +) */
+/* Icon-only action buttons (Analytics, +) */
 .icon-btn,
 .add-task-btn.icon-btn {
   background: none !important;
