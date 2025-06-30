@@ -12,7 +12,7 @@ import KeyboardNavigationSupport from "./KeyboardNavigationSupport";
 import Threads from './Threads';
 import ShapeBlur from './ShapeBlur';
 import Dock from "./Dock";
-import { VscSearch, VscFilter, VscAdd, VscColorMode, VscSymbolColor } from "react-icons/vsc";
+import { VscFilter, VscAdd, VscColorMode, VscSymbolColor } from "react-icons/vsc";
 
 const PRIORITIES = [
     { label: "High", value: 3 },
