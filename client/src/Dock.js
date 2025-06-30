@@ -10,11 +10,11 @@ import {
     Children,
     cloneElement,
     useEffect,
-    useMemo,
     useRef,
     useState,
 } from "react";
 import "./Dock.css";
+import React from "react";
 
 function DockItem({
     children,
