@@ -114,11 +114,6 @@ function TaskList({
                     </button>
                 </div>
 
-                <div className="tip-row">
-                    <span className="tip plain-text-btn">
-                        Tip: Drag tasks between columns to change {columnMode}.
-                    </span>
-                </div>
                 <DragDropContext onDragEnd={onInternalDragEnd}>
                     <div className="priority-columns">
                         {columns.map((col, i) => (
