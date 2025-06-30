@@ -2642,3 +2642,75 @@ body.dark .task-card.completed .task-title {
   font-size: 1.2rem;
   line-height: 1;
 }
+
+/* Search Modal Overlay */
+.search-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-modal-content {
+  background: #fff;
+  color: #111;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  padding: 32px;
+  min-width: 340px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+}
+
+body.dark .search-modal-content {
+  background: #23272f;
+  color: #fff;
+}
+
+.search-modal-content input.filter-input {
+  font-size: 18px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 8px;
+  background: inherit;
+  color: inherit;
+}
+
+.search-modal-content button[aria-label="Close search"] {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.search-modal-content label {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.search-modal-content kbd {
+  background: #eee;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.95em;
+  margin: 0 2px;
+}
+
+body.dark .search-modal-content kbd {
+  background: #333;
+  color: #fff;
+}

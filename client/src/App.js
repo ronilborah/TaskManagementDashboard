@@ -12,7 +12,7 @@ import KeyboardNavigationSupport from "./KeyboardNavigationSupport";
 import Threads from './Threads';
 import ShapeBlur from './ShapeBlur';
 import Dock from "./Dock";
-import { VscFilter, VscAdd, VscColorMode, VscSymbolColor } from "react-icons/vsc";
+import { VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscSearch } from "react-icons/vsc";
 
 const PRIORITIES = [
     { label: "High", value: 3 },
@@ -113,6 +113,7 @@ const Dashboard = ({
     const searchInputRef = useRef(null);
     const [showMobileSearch, setShowMobileSearch] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [showSearchModal, setShowSearchModal] = useState(false);
 
     // --- MOBILE STATUS COUNTS ---
     let completedTasks = 0, totalTasks = 0, overdue = 0;
@@ -149,6 +150,16 @@ const Dashboard = ({
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // Close modal on ESC
+    useEffect(() => {
+        if (!showSearchModal) return;
+        function handleKeyDown(e) {
+            if (e.key === "Escape") setShowSearchModal(false);
+        }
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [showSearchModal]);
 
     return (
         <div className={`app-root ${isSidebarPinned ? "sidebar-pinned" : ""}`}
@@ -339,26 +350,25 @@ const Dashboard = ({
                                     <Dock
                                         items={[
                                             {
+                                                icon: <VscSearch size={24} />, label: "Search", onClick: () => setShowSearchModal(true),
+                                            },
+                                            {
                                                 icon: <VscFilter size={24} />, label: "Filter", onClick: () => {
-                                                    console.log('Dock Filter button clicked');
                                                     setShowFilters((s) => !s);
                                                 },
                                             },
                                             {
                                                 icon: <VscAdd size={24} />, label: "Add Task", onClick: () => {
-                                                    console.log('Dock Add Task button clicked');
                                                     setEditId(null); setForm(defaultTaskWithRecurrence); setShowAddTaskForm((s) => !s);
                                                 },
                                             },
                                             {
                                                 icon: <VscColorMode size={24} />, label: isDarkMode ? "Light" : "Dark", onClick: () => {
-                                                    console.log('Dock Color Mode button clicked');
                                                     setIsDarkMode((d) => !d);
                                                 },
                                             },
                                             {
                                                 icon: <VscSymbolColor size={24} />, label: "Background", onClick: () => {
-                                                    console.log('Dock Background button clicked');
                                                     setShowBgModal(true);
                                                 },
                                             },
@@ -586,6 +596,78 @@ const Dashboard = ({
                                 localStorage.setItem('glitchOnHover', e.target.checked);
                             }}
                         />
+                    </div>
+                </div>
+            )}
+            {/* Search Modal Overlay */}
+            {showSearchModal && (
+                <div
+                    className="search-modal-overlay"
+                    tabIndex={-1}
+                    aria-modal="true"
+                    role="dialog"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        background: 'rgba(0,0,0,0.35)',
+                        zIndex: 10000,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                    onClick={e => {
+                        if (e.target === e.currentTarget) setShowSearchModal(false);
+                    }}
+                >
+                    <div
+                        className="search-modal-content"
+                        style={{
+                            background: isDarkMode ? '#23272f' : '#fff',
+                            color: isDarkMode ? '#fff' : '#111',
+                            borderRadius: 12,
+                            boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+                            padding: 32,
+                            minWidth: 340,
+                            maxWidth: '90vw',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'stretch',
+                            position: 'relative',
+                        }}
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <button
+                            aria-label="Close search"
+                            onClick={() => setShowSearchModal(false)}
+                            style={{
+                                position: 'absolute',
+                                top: 12,
+                                right: 12,
+                                background: 'none',
+                                border: 'none',
+                                color: isDarkMode ? '#fff' : '#111',
+                                fontSize: 22,
+                                cursor: 'pointer',
+                            }}
+                        >
+                            ×
+                        </button>
+                        <label htmlFor="dock-search-input" style={{ fontWeight: 600, marginBottom: 8 }}>Search Tasks</label>
+                        <input
+                            id="dock-search-input"
+                            className="filter-input"
+                            placeholder="Type to search tasks by title or description..."
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                            autoFocus
+                            style={{ fontSize: 18, padding: 12, borderRadius: 8, border: '1px solid #ccc', marginBottom: 8 }}
+                        />
+                        <div style={{ fontSize: 13, color: isDarkMode ? '#aaa' : '#666' }}>
+                            Press <kbd>ESC</kbd> or click outside to close
+                        </div>
                     </div>
                 </div>
             )}
