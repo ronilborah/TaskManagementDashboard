@@ -1,22 +1,18 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import ProjectList from "./ProjectList";
 import TaskList from "./TaskList";
-import { ToastContainer } from "react-toastify";
-import DarkModeToggle from "./DarkModeToggle";
 import { toast } from "react-toastify";
 import api from "./api";
 import ParticlesBackground from './ParticlesBackground';
 import { DragDropContext } from '@hello-pangea/dnd';
 import RecurringTaskDialog from './RecurringTaskDialog';
-import DashboardAnalytics from './DashboardAnalytics';
 import AriaLabelsInjector from "./AriaLabelsInjector";
 import KeyboardNavigationSupport from "./KeyboardNavigationSupport";
 import Threads from './Threads';
 import ShapeBlur from './ShapeBlur';
 import Dock from "./Dock";
-import { VscSearch, VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscGraph, VscSettingsGear } from "react-icons/vsc";
+import { VscSearch, VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscGraph } from "react-icons/vsc";
 
 const PRIORITIES = [
     { label: "High", value: 3 },
@@ -576,7 +572,6 @@ function App() {
     const [backgroundType, setBackgroundType] = useState(() => localStorage.getItem("backgroundType") || "particles");
     const [showAnalytics, setShowAnalytics] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
-    const settingsRef = useRef(null);
     const [glitchOnHover, setGlitchOnHover] = useState(() => {
         const stored = localStorage.getItem('glitchOnHover');
         return stored ? stored === 'true' : true;
