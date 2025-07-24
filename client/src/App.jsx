@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import "./App.css";
-import ProjectList from "./ProjectList";
-import TaskList from "./TaskList";
+import ProjectList from "./ProjectList.jsx";
+import TaskList, { TaskCard } from "./TaskList.jsx";
 import { toast } from "react-toastify";
 import api from "./api";
-import ParticlesBackground from './ParticlesBackground';
+import ParticlesBackground from './ParticlesBackground.jsx';
 import { DragDropContext } from '@hello-pangea/dnd';
-import Threads from './Threads';
-import { TaskCard } from "./TaskList";
-import { StaticDock } from "./Dock";
+import Threads from './Threads.jsx';
+import { StaticDock } from "./Dock.jsx";
 import { VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscSearch, VscLayout, VscCalendar } from "react-icons/vsc";
-import CalendarView from "./CalendarView";
+import CalendarView from "./CalendarView.jsx";
 
 const PRIORITIES = [
     { label: "High", value: 3 },

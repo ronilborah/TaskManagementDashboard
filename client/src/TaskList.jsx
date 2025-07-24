@@ -1,6 +1,6 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import FuzzyText from './FuzzyText';
+import FuzzyText from './FuzzyText.jsx';
 import "./App.css";
 
 const PRIORITIES = [
