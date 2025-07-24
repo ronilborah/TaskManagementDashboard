@@ -26,8 +26,6 @@ cd client
 npm install
 npm start
 ```
-- Open [http://localhost:3000](http://localhost:3000) (or the port shown in your terminal) in your browser.
-- All data will be stored in your browser's localStorage.
 
 ---
 
