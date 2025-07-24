@@ -7,10 +7,9 @@ import api from "./api";
 import ParticlesBackground from './ParticlesBackground';
 import { DragDropContext } from '@hello-pangea/dnd';
 import RecurringTaskDialog from './RecurringTaskDialog';
-import AriaLabelsInjector from "./AriaLabelsInjector";
 import KeyboardNavigationSupport from "./KeyboardNavigationSupport";
 import Threads from './Threads';
-import ShapeBlur from './ShapeBlur';
+
 import { StaticDock } from "./Dock";
 import { VscFilter, VscAdd, VscColorMode, VscSymbolColor, VscSearch, VscLayout, VscCalendar } from "react-icons/vsc";
 import TaskGridView from "./TaskGridView";
@@ -52,70 +51,17 @@ const backgroundImages = [
 ];
 
 const Dashboard = ({
-    projects,
-    tasks,
-    selectedProjectId,
-    setSelectedProjectId,
-    isSidebarHovering,
-    setIsSidebarHovering,
-    isSidebarPinned,
-    setIsSidebarPinned,
-    isDarkMode,
-    setIsDarkMode,
-    search,
-    setSearch,
-    filterPriority,
-    setFilterPriority,
-    filterStatus,
-    setFilterStatus,
-    filterAssignee,
-    setFilterAssignee,
-    filterDate,
-    setFilterDate,
-    sortBy,
-    setSortBy,
-    sortOrder,
-    setSortOrder,
-    showFilters,
-    setShowFilters,
-    showAddTaskForm,
-    setShowAddTaskForm,
-    form,
-    setForm,
-    editId,
-    setEditId,
-    loading,
-    handleAddProject,
-    handleUpdateProject,
-    handleDeleteProject,
-    fetchTasks,
-    handleEdit,
-    handleSubmit,
-    handleDelete,
-    handleStatusUpdate,
-    handleDragEnd,
-    handleChange,
-    backgroundType,
-    setBackgroundType,
-    showBgModal,
-    setShowBgModal,
-    showSettings,
-    setShowSettings,
-    glitchOnHover,
-    setGlitchOnHover,
-    columnMode,
-    setColumnMode,
-    gridView,
-    setGridView,
-    showCalendarModal,
-    setShowCalendarModal,
+    projects, tasks, selectedProjectId, setSelectedProjectId, isSidebarHovering, setIsSidebarHovering, isSidebarPinned, setIsSidebarPinned,
+    isDarkMode, setIsDarkMode, search, setSearch, filterPriority, setFilterPriority, filterStatus, setFilterStatus, filterAssignee, setFilterAssignee, filterDate, setFilterDate, sortBy, setSortBy, sortOrder, setSortOrder, showFilters, setShowFilters, showAddTaskForm, setShowAddTaskForm, form, setForm, editId, setEditId, loading, handleAddProject, handleUpdateProject, handleDeleteProject, fetchTasks, handleEdit, handleSubmit, handleDelete, handleStatusUpdate, handleDragEnd, handleChange, backgroundType, setBackgroundType, showBgModal,
+    setShowBgModal, showSettings, setShowSettings, glitchOnHover, setGlitchOnHover, columnMode, setColumnMode, gridView,
+    setGridView, showCalendarModal, setShowCalendarModal,
 }) => {
     const isSidebarVisible = isSidebarHovering || isSidebarPinned;
     const [showProjectsDropdown, setShowProjectsDropdown] = useState(false);
     const projectsDropdownRef = useRef(null);
     const settingsRef = useRef(null);
     const [hoveredCard, setHoveredCard] = useState(null);
-    const primaryColor = '#5227FF'; // Or use your CSS variable if available
+
     const searchInputRef = useRef(null);
     const [showMobileSearch, setShowMobileSearch] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -261,19 +207,7 @@ const Dashboard = ({
                                             onMouseEnter={() => setHoveredCard('completed')}
                                             onMouseLeave={() => setHoveredCard(null)}
                                         >
-                                            {hoveredCard === 'completed' && (
-                                                <ShapeBlur
-                                                    variation={0}
-                                                    pixelRatioProp={window.devicePixelRatio || 1}
-                                                    shapeSize={0.5}
-                                                    roundness={0.5}
-                                                    borderSize={0.05}
-                                                    circleSize={0.5}
-                                                    circleEdge={1}
-                                                    color={primaryColor}
-                                                    style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}
-                                                />
-                                            )}
+                                            {hoveredCard === 'completed'}
                                             <div className="count" style={{ position: 'relative', zIndex: 1 }}>{completedTasks}</div>
                                             <div className="count-label plain-text-btn" style={{ position: 'relative', zIndex: 1 }}>Completed</div>
                                         </div>
@@ -283,19 +217,7 @@ const Dashboard = ({
                                             onMouseEnter={() => setHoveredCard('pending')}
                                             onMouseLeave={() => setHoveredCard(null)}
                                         >
-                                            {hoveredCard === 'pending' && (
-                                                <ShapeBlur
-                                                    variation={0}
-                                                    pixelRatioProp={window.devicePixelRatio || 1}
-                                                    shapeSize={0.5}
-                                                    roundness={0.5}
-                                                    borderSize={0.05}
-                                                    circleSize={0.5}
-                                                    circleEdge={1}
-                                                    color={primaryColor}
-                                                    style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}
-                                                />
-                                            )}
+                                            {hoveredCard === 'pending'}
                                             <div className="count" style={{ position: 'relative', zIndex: 1 }}>{totalTasks - completedTasks}</div>
                                             <div className="count-label plain-text-btn" style={{ position: 'relative', zIndex: 1 }}>Pending</div>
                                         </div>
@@ -305,19 +227,7 @@ const Dashboard = ({
                                             onMouseEnter={() => setHoveredCard('overdue')}
                                             onMouseLeave={() => setHoveredCard(null)}
                                         >
-                                            {hoveredCard === 'overdue' && (
-                                                <ShapeBlur
-                                                    variation={0}
-                                                    pixelRatioProp={window.devicePixelRatio || 1}
-                                                    shapeSize={0.5}
-                                                    roundness={0.5}
-                                                    borderSize={0.05}
-                                                    circleSize={0.5}
-                                                    circleEdge={1}
-                                                    color={primaryColor}
-                                                    style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}
-                                                />
-                                            )}
+                                            {hoveredCard === 'overdue'}
                                             <div className="count" style={{ position: 'relative', zIndex: 1 }}>{overdue}</div>
                                             <div className="count-label plain-text-btn" style={{ position: 'relative', zIndex: 1 }}>Overdue</div>
                                         </div>
@@ -1067,7 +977,7 @@ function App() {
                 showCalendarModal={showCalendarModal}
                 setShowCalendarModal={setShowCalendarModal}
             />
-            <AriaLabelsInjector />
+
             <KeyboardNavigationSupport />
         </>
     );

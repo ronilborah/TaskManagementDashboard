@@ -1,11 +1,5 @@
 import { useEffect } from "react";
 
-/**
- * This component adds keyboard navigation support for all interactive elements.
- * It does not modify any existing code or structure.
- *
- * Usage: Import and render <KeyboardNavigationSupport /> at the root of your app.
- */
 export default function KeyboardNavigationSupport() {
     useEffect(() => {
         // Helper: Get all focusable elements
