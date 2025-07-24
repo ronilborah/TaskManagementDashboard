@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import api from "./api";
 import ParticlesBackground from './ParticlesBackground';
 import { DragDropContext } from '@hello-pangea/dnd';
-import RecurringTaskDialog from './RecurringTaskDialog';
 import KeyboardNavigationSupport from "./KeyboardNavigationSupport";
 import Threads from './Threads';
 
@@ -49,6 +48,34 @@ const backgroundImages = [
     "blob-scene-haikei.svg",
     "circle-scatter-haikei.svg"
 ];
+
+const recurrenceOptions = [
+    { label: 'None', value: 'none' },
+    { label: 'Daily', value: 'daily' },
+    { label: 'Weekly', value: 'weekly' },
+    { label: 'Monthly', value: 'monthly' },
+];
+
+function RecurringTaskDialog({ value, onChange }) {
+    return (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <label htmlFor="recurrence-select" style={{ fontWeight: 500, marginRight: 4 }}>
+                Repeat:
+            </label>
+            <select
+                id="recurrence-select"
+                className="filter-select"
+                value={value}
+                onChange={e => onChange(e.target.value)}
+                style={{ minWidth: 120 }}
+            >
+                {recurrenceOptions.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+            </select>
+        </div>
+    );
+}
 
 const Dashboard = ({
     projects, tasks, selectedProjectId, setSelectedProjectId, isSidebarHovering, setIsSidebarHovering, isSidebarPinned, setIsSidebarPinned,
