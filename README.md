@@ -36,11 +36,4 @@ npm start
 - **Backend**: Node.js, Express, MongoDB, Mongoose
 - **Deployment**: Frontend on Vercel, Backend on Render
 
-## AI Tools used
-During the development of this project, several AI tools were utilized to enhance productivity and streamline the development process:
-- v0.dev – Used to generate and prototype UI components quickly, which served as a base for several front-end elements.
-- Claude – Assisted in drafting and refining parts of the backend logic, helping to structure API routes and handle server-side functionality.
-- Cursor – Used as an AI-powered coding assistant to integrate and refactor various code components into a cohesive, functional project.
-
-These tools significantly accelerated the development timeline and supported a smoother transition from ideation to implementation.
 
