@@ -96,12 +96,13 @@ body {
   font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100%;
   background: var(--bg-main);
   color: var(--text-main);
   transition: var(--transition);
   overflow-x: hidden;
-  width: 100%;
+  overflow-y: hidden;
   position: relative;
 }
 
@@ -117,7 +118,7 @@ body.dark {
 }
 
 .app-root {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   background: var(--bg-main);
   padding: 0;
@@ -126,6 +127,7 @@ body.dark {
   position: relative;
   width: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 body.dark .app-root {
