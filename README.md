@@ -24,7 +24,7 @@ git clone https://github.com/ronilborah/TaskManagementDashboard.git
 cd TaskManagementDashboard
 cd client
 npm install
-npm start
+npm run dev
 ```
 
 ---
